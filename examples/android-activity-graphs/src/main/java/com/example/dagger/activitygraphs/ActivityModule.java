@@ -21,7 +21,7 @@ import com.example.dagger.activitygraphs.ui.HomeActivity;
 import com.example.dagger.activitygraphs.ui.HomeFragment;
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /**
  * This module represents objects which exist only for the scope of a single activity. We can

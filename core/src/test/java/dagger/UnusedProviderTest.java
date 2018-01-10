@@ -16,18 +16,16 @@
 package dagger;
 
 import dagger.internal.TestingLoader;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
-@RunWith(JUnit4.class)
 public class UnusedProviderTest {
 
-  @Test public void unusedProvidesMethod_whenModuleLibrary_passes() throws Exception {
+  @Test
+  public void unusedProvidesMethod_whenModuleLibrary_passes() throws Exception {
     class EntryPoint {
     }
     class BagOfMoney {
@@ -42,7 +40,8 @@ public class UnusedProviderTest {
     graph.validate();
   }
 
-  @Test public void unusedProviderMethod_whenNotLibraryModule_fails() throws Exception {
+  @Test
+  public void unusedProviderMethod_whenNotLibraryModule_fails() throws Exception {
     class EntryPoint {
     }
     class BagOfMoney {
@@ -62,7 +61,8 @@ public class UnusedProviderTest {
     }
   }
 
-  @Test public void whenLibraryModulePlussedToNecessaryModule_shouldNotFailOnUnusedLibraryModule()
+  @Test
+  public void whenLibraryModulePlussedToNecessaryModule_shouldNotFailOnUnusedLibraryModule()
       throws Exception {
     class EntryPoint {
     }
@@ -83,7 +83,8 @@ public class UnusedProviderTest {
     graph.validate();
   }
 
-  @Test public void unusedSetBinding() throws Exception {
+  @Test
+  public void unusedSetBinding() throws Exception {
     @Module
     class TestModule {
       @Provides(type = Provides.Type.SET) String provideA() {
@@ -99,7 +100,8 @@ public class UnusedProviderTest {
     }
   }
 
-  @Test public void unusedSetValuesBinding() throws Exception {
+  @Test
+  public void unusedSetValuesBinding() throws Exception {
     @Module
     class TestModule {
       @Provides(type = Provides.Type.SET_VALUES) Set<String> provideA() {

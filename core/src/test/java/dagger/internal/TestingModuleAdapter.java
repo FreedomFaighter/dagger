@@ -25,8 +25,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Set;
-import javax.inject.Provider;
-import javax.inject.Singleton;
+import jakarta.inject.Provider;
+import jakarta.inject.Singleton;
 
 //TODO: Reduce the complexity of this and/or replace with a mock or fake.
 public class TestingModuleAdapter<M> extends ModuleAdapter<M> {
@@ -52,7 +52,8 @@ public class TestingModuleAdapter<M> extends ModuleAdapter<M> {
     return result;
   }
 
-  @Override public void getBindings(BindingsGroup bindings, M module) {
+  @Override
+  public void getBindings(BindingsGroup bindings, M module) {
     for (Class<?> c = moduleClass; !c.equals(Object.class); c = c.getSuperclass()) {
       for (Method method : c.getDeclaredMethods()) {
         Provides provides = method.getAnnotation(Provides.class);
@@ -110,7 +111,8 @@ public class TestingModuleAdapter<M> extends ModuleAdapter<M> {
             method, providerKey, moduleClass.getName(), module, library));
   }
 
-  @Override public M newModule() {
+  @Override
+  public M newModule() {
     try {
       Constructor<?> constructor = moduleClass.getDeclaredConstructor();
       constructor.setAccessible(true);
@@ -128,7 +130,8 @@ public class TestingModuleAdapter<M> extends ModuleAdapter<M> {
     }
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return "TestingModuleAdapter[" + this.moduleClass.getName() + "]";
   }
 
@@ -164,7 +167,8 @@ public class TestingModuleAdapter<M> extends ModuleAdapter<M> {
       setLibrary(library);
     }
 
-    @Override public void attach(Linker linker) {
+    @Override
+    public void attach(Linker linker) {
       Type[] types = method.getGenericParameterTypes();
       Annotation[][] annotations = method.getParameterAnnotations();
       parameters = new Binding[types.length];
@@ -174,7 +178,8 @@ public class TestingModuleAdapter<M> extends ModuleAdapter<M> {
       }
     }
 
-    @Override public T get() {
+    @Override
+    public T get() {
       Object[] args = new Object[parameters.length];
       for (int i = 0; i < parameters.length; i++) {
         args[i] = parameters[i].get();
@@ -191,13 +196,15 @@ public class TestingModuleAdapter<M> extends ModuleAdapter<M> {
       }
     }
 
-    @Override public void getDependencies(Set<Binding<?>> get, Set<Binding<?>> injectMembers) {
+    @Override
+    public void getDependencies(Set<Binding<?>> get, Set<Binding<?>> injectMembers) {
       for (Binding<?> binding : parameters) {
         get.add(binding);
       }
     }
 
-    @Override public void injectMembers(T t) {
+    @Override
+    public void injectMembers(T t) {
       throw new AssertionError("Provides method bindings are not MembersInjectors");
     }
   }

@@ -19,7 +19,7 @@ import android.content.Context;
 import android.location.LocationManager;
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import static android.content.Context.LOCATION_SERVICE;
 

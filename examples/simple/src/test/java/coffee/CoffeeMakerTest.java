@@ -18,19 +18,18 @@ package coffee;
 import dagger.Module;
 import dagger.ObjectGraph;
 import dagger.Provides;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class CoffeeMakerTest {
   @Inject CoffeeMaker coffeeMaker;
   @Inject Heater heater;
 
-  @Before public void setUp() {
+  @BeforeAll
+  public static void setUp() {
     ObjectGraph.create(new TestModule()).inject(this);
   }
 
@@ -45,7 +44,8 @@ public class CoffeeMakerTest {
     }
   }
 
-  @Test public void testHeaterIsTurnedOnAndThenOff() {
+  @Test
+  public void testHeaterIsTurnedOnAndThenOff() {
     Mockito.when(heater.isHot()).thenReturn(true);
     coffeeMaker.brew();
     Mockito.verify(heater, Mockito.times(1)).on();

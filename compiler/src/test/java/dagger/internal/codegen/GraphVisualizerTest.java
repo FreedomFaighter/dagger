@@ -19,62 +19,64 @@ import dagger.internal.Keys;
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Set;
-import javax.inject.Named;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Named;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(JUnit4.class)
 public final class GraphVisualizerTest {
   private final GraphVisualizer graphVisualizer = new GraphVisualizer();
 
   String simpleKey;
-  @Test public void testSimpleKey() throws Exception {
+  @Test
+  public void testSimpleKey() throws Exception {
     String key = fieldKey("simpleKey");
-    assertThat(graphVisualizer.shortName(key)).isEqualTo("String");
+    assertEquals(graphVisualizer.shortName(key), "String");
   }
 
   @SuppressWarnings("qualifiers")
   @Named String annotatedKey;
-  @Test public void testAnnotatedKey() throws Exception {
+  @Test
+  public void testAnnotatedKey() throws Exception {
     String key = fieldKey("annotatedKey");
-    assertThat(graphVisualizer.shortName(key)).isEqualTo("@Named String");
+    assertEquals(graphVisualizer.shortName(key), "@Named String");
   }
 
   @SuppressWarnings("qualifiers")
   @Named("/@<>[]()") String annotatedKeyWithParameters;
-  @Test public void testAnnotatedKeyWithParameters() throws Exception {
+  @Test
+  public void testAnnotatedKeyWithParameters() throws Exception {
     String key = fieldKey("annotatedKeyWithParameters");
     // We intentionally omit parameters on annotated keys!
-    assertThat(graphVisualizer.shortName(key)).isEqualTo("@Named String");
+    assertEquals(graphVisualizer.shortName(key), "@Named String");
   }
 
   String[][] arrayKey;
-  @Test public void testArrayKey() throws Exception {
+  @Test
+  public void testArrayKey() throws Exception {
     String key = fieldKey("arrayKey");
-    assertThat(graphVisualizer.shortName(key)).isEqualTo("String[][]");
+    assertEquals(graphVisualizer.shortName(key), "String[][]");
   }
 
   Map<String, Set<Object>> typeParameterKey;
-  @Test public void testTypeParameterKey() throws Exception {
+  @Test
+  public void testTypeParameterKey() throws Exception {
     String key = fieldKey("typeParameterKey");
-    assertThat(graphVisualizer.shortName(key))
-        .isEqualTo("Map<java.lang.String, java.util.Set<java.lang.Object>>");
+    assertEquals(graphVisualizer.shortName(key), "Map<java.lang.String, java.util.Set<java.lang.Object>>");
   }
 
   @SuppressWarnings("qualifiers")
   @Named("/@<>[]()") Map<String, Set<Object>>[] everythingKey;
-  @Test public void testEverythingKey() throws Exception {
+  @Test
+  public void testEverythingKey() throws Exception {
     String key = fieldKey("everythingKey");
-    assertThat(graphVisualizer.shortName(key))
-        .isEqualTo("@Named Map<java.lang.String, java.util.Set<java.lang.Object>>[]");
+    assertEquals(graphVisualizer.shortName(key), "@Named Map<java.lang.String, java.util.Set<java.lang.Object>>[]");
   }
 
-  @Test public void testMembersKey() throws Exception {
+  @Test
+  public void testMembersKey() throws Exception {
     String key = Keys.getMembersKey(String.class);
-    assertThat(graphVisualizer.shortName(key)).isEqualTo("String");
+    assertEquals(graphVisualizer.shortName(key), "String");
   }
 
   private String fieldKey(String fieldName) throws NoSuchFieldException {

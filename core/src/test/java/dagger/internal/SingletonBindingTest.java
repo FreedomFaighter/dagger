@@ -16,56 +16,61 @@
 
 package dagger.internal;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@RunWith(JUnit4.class)
 public final class SingletonBindingTest {
-  private Binding<String> wrappedBinding;
-  private Binding<String> singletonBinding;
+  private static Binding<String> wrappedBinding;
+  private static Binding<String> singletonBinding;
 
-  @Before public void setUp() {
+  @BeforeAll
+  public static void setUp() {
     wrappedBinding = new StringBinding();
     singletonBinding = Linker.scope(wrappedBinding);
   }
 
-  @Test public void testSingletonBindingIsSingleton() {
-    assertThat(singletonBinding.isSingleton()).isTrue();
+  @Test
+  public void testSingletonBindingIsSingleton() {
+    assertTrue(singletonBinding.isSingleton());
   }
 
   // This next batch of tests validates that SingletonBinding consistently delegates to the wrapped binding for state.
-  @Test public void testSingletonBindingDelegatesSetLinked() {
+  @Test
+  public void testSingletonBindingDelegatesSetLinked() {
     singletonBinding.setLinked();
-    assertThat(wrappedBinding.isLinked()).isTrue();
+    assertTrue(wrappedBinding.isLinked());
   }
 
-  @Test public void testSingletonBindingDelegatesIsLinked() {
+  @Test
+  public void testSingletonBindingDelegatesIsLinked() {
     wrappedBinding.setLinked();
-    assertThat(singletonBinding.isLinked()).isTrue();
+    assertTrue(singletonBinding.isLinked());
   }
 
-  @Test public void testSingletonBindingDelegatesSetVisiting() {
+  @Test
+  public void testSingletonBindingDelegatesSetVisiting() {
     singletonBinding.setVisiting(true);
-    assertThat(wrappedBinding.isVisiting()).isTrue();
+    assertTrue(wrappedBinding.isVisiting());
   }
 
-  @Test public void testSingletonBindingDelegatesIsVisiting() {
+  @Test
+  public void testSingletonBindingDelegatesIsVisiting() {
     wrappedBinding.setVisiting(true);
-    assertThat(singletonBinding.isVisiting()).isTrue();
+    assertTrue(singletonBinding.isVisiting());
   }
 
-  @Test public void testSingletonBindingDelegatesSetCycleFree() {
+  @Test
+  public void testSingletonBindingDelegatesSetCycleFree() {
     singletonBinding.setCycleFree(true);
-    assertThat(wrappedBinding.isCycleFree()).isTrue();
+    assertTrue(wrappedBinding.isCycleFree());
   }
 
-  @Test public void testSingletonBindingDelegatesIsCycleFree() {
+  @Test
+  public void testSingletonBindingDelegatesIsCycleFree() {
     wrappedBinding.setCycleFree(true);
-    assertThat(singletonBinding.isCycleFree()).isTrue();
+    assertTrue(singletonBinding.isCycleFree());
   }
 
   private static class StringBinding extends Binding<String> {

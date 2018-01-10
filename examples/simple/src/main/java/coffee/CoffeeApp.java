@@ -1,6 +1,6 @@
 package coffee;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import dagger.ObjectGraph;
 

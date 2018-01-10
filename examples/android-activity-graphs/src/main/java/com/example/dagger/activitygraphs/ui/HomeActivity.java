@@ -18,7 +18,7 @@ package com.example.dagger.activitygraphs.ui;
 import android.location.LocationManager;
 import android.os.Bundle;
 import com.example.dagger.activitygraphs.DemoBaseActivity;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 public class HomeActivity extends DemoBaseActivity {
   @Inject LocationManager locationManager;

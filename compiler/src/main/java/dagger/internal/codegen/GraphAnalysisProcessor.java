@@ -42,7 +42,7 @@ import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
@@ -62,19 +62,19 @@ import static dagger.internal.codegen.Util.className;
 import static dagger.internal.codegen.Util.getAnnotation;
 import static dagger.internal.codegen.Util.getPackage;
 import static dagger.internal.codegen.Util.isInterface;
-import static java.util.Arrays.asList;
 
 /**
  * Performs full graph analysis on a module.
  */
 @SupportedAnnotationTypes("dagger.Module")
 public final class GraphAnalysisProcessor extends AbstractProcessor {
-  private static final Set<String> ERROR_NAMES_TO_PROPAGATE = new LinkedHashSet<String>(asList(
-      "com.sun.tools.javac.code.Symbol$CompletionFailure"));
+  private static final String ERROR_NAMES_TO_PROPAGATE
+    = "com.sun.tools.javac.code.Symbol$CompletionFailure";
 
   private final Set<String> delayedModuleNames = new LinkedHashSet<String>();
 
-  @Override public SourceVersion getSupportedSourceVersion() {
+  @Override
+  public SourceVersion getSupportedSourceVersion() {
     return SourceVersion.latestSupported();
   }
 
@@ -82,7 +82,8 @@ public final class GraphAnalysisProcessor extends AbstractProcessor {
    * Perform full-graph analysis on complete modules. This checks that all of
    * the module's dependencies are satisfied.
    */
-  @Override public boolean process(Set<? extends TypeElement> types, RoundEnvironment env) {
+  @Override
+  public boolean process(Set<? extends TypeElement> types, RoundEnvironment env) {
     if (!env.processingOver()) {
       // Storing module names for later retrieval as the element instance is invalidated across
       // passes.
@@ -126,7 +127,7 @@ public final class GraphAnalysisProcessor extends AbstractProcessor {
           error("Graph validation failed: " + e.getMessage(), elements().getTypeElement(e.type));
           continue;
         } catch (RuntimeException e) {
-          if (ERROR_NAMES_TO_PROPAGATE.contains(e.getClass().getName())) {
+          if (ERROR_NAMES_TO_PROPAGATE.equals(e.getClass().getName())) {
             throw e;
           }
           error("Unknown error " + e.getClass().getName() + " thrown by javac in graph validation: "
@@ -175,12 +176,14 @@ public final class GraphAnalysisProcessor extends AbstractProcessor {
     // to make the linker happy.
     synchronized (linker) {
       BindingsGroup baseBindings = new BindingsGroup() {
-        @Override public Binding<?> contributeSetBinding(String key, SetBinding<?> value) {
+        @Override
+        public Binding<?> contributeSetBinding(String key, SetBinding<?> value) {
           return super.put(key, value);
         }
       };
       BindingsGroup overrideBindings = new BindingsGroup() {
-        @Override public Binding<?> contributeSetBinding(String key, SetBinding<?> value) {
+        @Override
+        public Binding<?> contributeSetBinding(String key, SetBinding<?> value) {
           throw new IllegalStateException("Module overrides cannot contribute set bindings.");
         }
       };
@@ -338,7 +341,8 @@ public final class GraphAnalysisProcessor extends AbstractProcessor {
       setLibrary(library);
     }
 
-    @Override public void attach(Linker linker) {
+    @Override
+    public void attach(Linker linker) {
       for (int i = 0; i < method.getParameters().size(); i++) {
         VariableElement parameter = method.getParameters().get(i);
         String parameterKey = GeneratorKeys.get(parameter);
@@ -347,19 +351,23 @@ public final class GraphAnalysisProcessor extends AbstractProcessor {
       }
     }
 
-    @Override public Object get() {
+    @Override
+    public Object get() {
       throw new AssertionError("Compile-time binding should never be called to inject.");
     }
 
-    @Override public void injectMembers(Object t) {
+    @Override
+    public void injectMembers(Object t) {
       throw new AssertionError("Compile-time binding should never be called to inject.");
     }
 
-    @Override public void getDependencies(Set<Binding<?>> get, Set<Binding<?>> injectMembers) {
+    @Override
+    public void getDependencies(Set<Binding<?>> get, Set<Binding<?>> injectMembers) {
       Collections.addAll(get, parameters);
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "ProvidesBinding[key=" + provideKey
           + " method=" + moduleClass + "." + method.getSimpleName() + "()";
     }

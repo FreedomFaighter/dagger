@@ -15,7 +15,7 @@
  */
 package test;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 class TestApp {
   @Inject private Object nope;

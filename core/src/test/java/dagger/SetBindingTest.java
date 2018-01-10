@@ -24,25 +24,24 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
 import static dagger.Provides.Type.SET;
 import static dagger.Provides.Type.SET_VALUES;
 import static java.util.Collections.emptySet;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
-@RunWith(JUnit4.class)
 public final class SetBindingTest {
-  @Test public void multiValueBindings_SingleModule() {
+  @Test
+  public void multiValueBindings_SingleModule() {
     class TestEntryPoint {
       @Inject Set<String> strings;
     }
@@ -57,7 +56,8 @@ public final class SetBindingTest {
     assertEquals(set("string1", "string2"), ep.strings);
   }
 
-  @Test public void multiValueBindings_MultiModule() {
+  @Test
+  public void multiValueBindings_MultiModule() {
     class TestEntryPoint {
       @Inject Set<String> strings;
     }
@@ -81,7 +81,8 @@ public final class SetBindingTest {
     assertEquals(set("string1", "string2"), ep.strings);
   }
 
-  @Test public void multiValueBindings_MultiModule_NestedSet() {
+  @Test
+  public void multiValueBindings_MultiModule_NestedSet() {
     class TestEntryPoint {
       @Inject Set<Set<String>> stringses;
     }
@@ -105,7 +106,8 @@ public final class SetBindingTest {
     assertEquals(set(set("string1"),set("string2"), set("string3")), ep.stringses);
   }
 
-  @Test public void multiValueBindings_WithSingletonAndDefaultValues() {
+  @Test
+  public void multiValueBindings_WithSingletonAndDefaultValues() {
     final AtomicInteger singletonCounter = new AtomicInteger(100);
     final AtomicInteger defaultCounter = new AtomicInteger(200);
     class TestEntryPoint {
@@ -124,7 +126,8 @@ public final class SetBindingTest {
     assertEquals(set(100, 201), ep.objects2);
   }
 
-  @Test public void multiValueBindings_WithSingletonsAcrossMultipleInjectableTypes() {
+  @Test
+  public void multiValueBindings_WithSingletonsAcrossMultipleInjectableTypes() {
     final AtomicInteger singletonCounter = new AtomicInteger(100);
     final AtomicInteger defaultCounter = new AtomicInteger(200);
     class TestEntryPoint1 {
@@ -148,7 +151,8 @@ public final class SetBindingTest {
 
  }
 
-  @Test public void multiValueBindings_WithQualifiers() {
+  @Test
+  public void multiValueBindings_WithQualifiers() {
     class TestEntryPoint {
       @Inject Set<String> strings;
       @Inject @Named("foo") Set<String> fooStrings;
@@ -172,7 +176,8 @@ public final class SetBindingTest {
   }
 
   // TODO(cgruber): Move this into an example project.
-  @Test public void sampleMultiBindingLogger() {
+  @Test
+  public void sampleMultiBindingLogger() {
     class TestEntryPoint {
       @Inject Logger logger;
       public void doStuff() {
@@ -205,11 +210,12 @@ public final class SetBindingTest {
     assertNull(logoutput.get());
     ep.doStuff();
     assertNotNull(logoutput.get());
-    assertThat(logoutput.get()).contains("Naughty Naughty");
-    assertThat(logoutput.get()).contains("NullPointerException");
+    assertTrue(logoutput.get().contains("Naughty Naughty"));
+    assertTrue(logoutput.get().contains("NullPointerException"));
   }
 
-  @Test public void duplicateValuesContributed() {
+  @Test
+  public void duplicateValuesContributed() {
     class TestEntryPoint {
       @Inject Set<String> strings;
     }
@@ -225,7 +231,8 @@ public final class SetBindingTest {
     assertThat(ep.strings).containsExactly("a", "b");
   }
 
-  @Test public void validateSetBinding() {
+  @Test
+  public void validateSetBinding() {
     class TestEntryPoint {
       @Inject Set<String> strings;
     }
@@ -240,7 +247,8 @@ public final class SetBindingTest {
     graph.validate();
   }
 
-  @Test public void validateEmptySetBinding() {
+  @Test
+  public void validateEmptySetBinding() {
     class TestEntryPoint {
       @Inject Set<String> strings;
     }
@@ -256,7 +264,8 @@ public final class SetBindingTest {
     graph.validate();
   }
 
-  @Test public void validateLibraryModules() {
+  @Test
+  public void validateLibraryModules() {
     class TestEntryPoint {}
 
     @Module(library = true)
@@ -275,7 +284,8 @@ public final class SetBindingTest {
     graph.validate();
   }
 
-  @Test public void validateLibraryModules_nonLibraryContributors() {
+  @Test
+  public void validateLibraryModules_nonLibraryContributors() {
     class TestEntryPoint {}
 
     @Module(library = true)

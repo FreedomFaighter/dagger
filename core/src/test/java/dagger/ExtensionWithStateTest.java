@@ -17,14 +17,11 @@
 package dagger;
 
 import dagger.internal.TestingLoader;
-import javax.inject.Inject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
-@RunWith(JUnit4.class)
 public final class ExtensionWithStateTest {
   static class A { }
 
@@ -47,15 +44,16 @@ public final class ExtensionWithStateTest {
   @Module(addsTo = RootModule.class, injects = { B.class })
   static class ExtensionModule { }
 
-  @Test public void basicInjectionWithExtension() {
+  @Test
+  public void basicInjectionWithExtension() {
     A a = new A();
     ObjectGraph root = ObjectGraph.createWith(new TestingLoader(), new RootModule(a));
-    assertThat(root.get(A.class)).isSameAs(a);
+    assertSame(root.get(A.class), a);
 
     // Extension graph behaves as the root graph would for root-ish things.
     ObjectGraph extension = root.plus(new ExtensionModule());
-    assertThat(extension.get(A.class)).isSameAs(a);
-    assertThat(extension.get(B.class).a).isSameAs(a);
+    assertSame(extension.get(A.class), a);
+    assertSame(extension.get(B.class).a, a);
   }
 
 }

@@ -16,17 +16,16 @@
 package dagger;
 
 import dagger.internal.TestingLoader;
-import javax.inject.Inject;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(JUnit4.class)
 public final class InjectStaticsTest {
-  @Before public void setUp() {
+  @BeforeAll
+  public static void setUp() {
     InjectsOneField.staticField = null;
     InjectsStaticAndNonStatic.staticField = null;
   }
@@ -40,7 +39,8 @@ public final class InjectStaticsTest {
     @Inject static String staticField;
   }
 
-  @Test public void injectStatics() {
+  @Test
+  public void injectStatics() {
     @Module(staticInjections = InjectsOneField.class)
     class TestModule {
       @Provides String provideString() {
@@ -49,12 +49,13 @@ public final class InjectStaticsTest {
     }
 
     ObjectGraph graph = ObjectGraph.createWith(new TestingLoader(),new TestModule());
-    assertThat(InjectsOneField.staticField).isNull();
+    assertNull(InjectsOneField.staticField);
     graph.injectStatics();
-    assertThat(InjectsOneField.staticField).isEqualTo("static");
+    assertEquals(InjectsOneField.staticField, "static");
   }
 
-  @Test public void instanceFieldsNotInjectedByInjectStatics() {
+  @Test
+  public void instanceFieldsNotInjectedByInjectStatics() {
     @Module(
         staticInjections = InjectsStaticAndNonStatic.class,
         injects = InjectsStaticAndNonStatic.class)
@@ -68,12 +69,13 @@ public final class InjectStaticsTest {
     }
 
     ObjectGraph graph = ObjectGraph.createWith(new TestingLoader(), new TestModule());
-    assertThat(InjectsStaticAndNonStatic.staticField).isNull();
+    assertNull(InjectsStaticAndNonStatic.staticField);
     graph.injectStatics();
-    assertThat(InjectsStaticAndNonStatic.staticField).isEqualTo("static");
+    assertEquals(InjectsStaticAndNonStatic.staticField, "static");
   }
 
-  @Test public void staticFieldsNotInjectedByInjectMembers() {
+  @Test
+  public void staticFieldsNotInjectedByInjectMembers() {
     @Module(
         staticInjections = InjectsStaticAndNonStatic.class,
         injects = InjectsStaticAndNonStatic.class)
@@ -87,10 +89,10 @@ public final class InjectStaticsTest {
     }
 
     ObjectGraph graph = ObjectGraph.createWith(new TestingLoader(), new TestModule());
-    assertThat(InjectsStaticAndNonStatic.staticField).isNull();
+    assertNull(InjectsStaticAndNonStatic.staticField);
     InjectsStaticAndNonStatic object = new InjectsStaticAndNonStatic();
     graph.inject(object);
-    assertThat(InjectsStaticAndNonStatic.staticField).isNull();
-    assertThat(object.nonStaticField).isEqualTo(5);
+    assertNull(InjectsStaticAndNonStatic.staticField);
+    assertEquals(object.nonStaticField, 5);
   }
 }

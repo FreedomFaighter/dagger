@@ -16,23 +16,21 @@
 package dagger;
 
 import dagger.internal.TestingLoader;
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.inject.Singleton;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
+import jakarta.inject.Singleton;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Tests MembersInjector injection, and how object graph features interact with
  * types unconstructable types (types that support members injection only).
  */
-@RunWith(JUnit4.class)
 public final class MembersInjectorTest {
-  @Test public void injectMembers() {
+  @Test
+  public void injectMembers() {
     class TestEntryPoint {
       @Inject MembersInjector<Injectable> membersInjector;
     }
@@ -48,7 +46,7 @@ public final class MembersInjectorTest {
     ObjectGraph.createWith(new TestingLoader(), new StringModule()).inject(entryPoint);
     Injectable injectable = new Injectable();
     entryPoint.membersInjector.injectMembers(injectable);
-    assertThat(injectable.injected).isEqualTo("injected");
+    assertEquals(injectable.injected, "injected");
   }
 
   static class Injectable {
@@ -63,7 +61,8 @@ public final class MembersInjectorTest {
     }
   }
 
-  @Test public void membersInjectorOfUnconstructableIsOkay() {
+  @Test
+  public void membersInjectorOfUnconstructableIsOkay() {
     class TestEntryPoint {
       @Inject MembersInjector<Unconstructable> membersInjector;
     }
@@ -79,12 +78,13 @@ public final class MembersInjectorTest {
     ObjectGraph.createWith(new TestingLoader(), new StringModule()).inject(entryPoint);
     Unconstructable object = new Unconstructable("constructor");
     entryPoint.membersInjector.injectMembers(object);
-    assertThat(object.constructor).isEqualTo("constructor");
-    assertThat(object.injected).isEqualTo("injected");
+    assertEquals(object.constructor, "constructor");
+    assertEquals(object.injected, "injected");
   }
 
 
-  @Test public void injectionOfUnconstructableFails() {
+  @Test
+  public void injectionOfUnconstructableFails() {
     class TestEntryPoint {
       @Inject Unconstructable unconstructable;
     }
@@ -101,7 +101,8 @@ public final class MembersInjectorTest {
     }
   }
 
-  @Test public void instanceInjectionOfMembersOnlyType() {
+  @Test
+  public void instanceInjectionOfMembersOnlyType() {
     class TestEntryPoint {
       @Inject Provider<Unconstructable> provider;
     }
@@ -118,7 +119,8 @@ public final class MembersInjectorTest {
     }
   }
 
-  @Test public void rejectUnconstructableSingleton() {
+  @Test
+  public void rejectUnconstructableSingleton() {
     class TestEntryPoint {
       @Inject MembersInjector<UnconstructableSingleton> membersInjector;
     }
@@ -148,7 +150,8 @@ public final class MembersInjectorTest {
     @Inject String injected;
   }
 
-  @Test public void membersInjectorOfNonStaticInnerIsOkay() {
+  @Test
+  public void membersInjectorOfNonStaticInnerIsOkay() {
     class TestEntryPoint {
       @Inject MembersInjector<NonStaticInner> membersInjector;
     }
@@ -164,10 +167,11 @@ public final class MembersInjectorTest {
     ObjectGraph.createWith(new TestingLoader(), new TestModule()).inject(entryPoint);
     NonStaticInner nonStaticInner = new NonStaticInner();
     entryPoint.membersInjector.injectMembers(nonStaticInner);
-    assertThat(nonStaticInner.injected).isEqualTo("injected");
+    assertEquals(nonStaticInner.injected, "injected");
   }
 
-  @Test public void instanceInjectionOfNonStaticInnerFailsEarly() {
+  @Test
+  public void instanceInjectionOfNonStaticInnerFailsEarly() {
     class TestEntryPoint {
       @Inject NonStaticInner nonStaticInner;
     }
@@ -184,7 +188,8 @@ public final class MembersInjectorTest {
     }
   }
 
-  @Test public void providesMethodsAndMembersInjectionDoNotConflict() {
+  @Test
+  public void providesMethodsAndMembersInjectionDoNotConflict() {
     class InjectsString {
       @Inject String value;
     }
@@ -210,10 +215,10 @@ public final class MembersInjectorTest {
     ObjectGraph.createWith(new TestingLoader(), new TestModule()).inject(entryPoint);
 
     InjectsString provided = entryPoint.provider.get();
-    assertThat(provided.value).isEqualTo("provides");
+    assertEquals(provided.value, "provides");
 
     InjectsString membersInjected = new InjectsString();
     entryPoint.membersInjector.injectMembers(membersInjected);
-    assertThat(membersInjected.value).isEqualTo("members");
+    assertEquals(membersInjected.value, "members");
   }
 }

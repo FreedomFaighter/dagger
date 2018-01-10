@@ -18,15 +18,12 @@ package dagger.tests.integration.validation;
 
 import com.google.testing.compile.JavaFileObjects;
 import javax.tools.JavaFileObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 import static dagger.tests.integration.ProcessorTestUtils.daggerProcessors;
 
-@RunWith(JUnit4.class)
 public class CyclicModuleIncludesTest {
   private final JavaFileObject javaFile =
       JavaFileObjects.forSourceString("CyclicModules", ""
@@ -47,7 +44,8 @@ public class CyclicModuleIncludesTest {
           + "}"
       );
 
-  @Test public void cyclicModuleSelfIncludes() {
+  @Test
+  public void cyclicModuleSelfIncludes() {
     assertAbout(javaSource())
         .that(javaFile)
         .processedWith(daggerProcessors())
@@ -56,7 +54,8 @@ public class CyclicModuleIncludesTest {
         .in(javaFile).onLine(4);
   }
 
-  @Test public void cyclicModuleIncludes_full_cycle() {
+  @Test
+  public void cyclicModuleIncludes_full_cycle() {
     assertAbout(javaSource())
         .that(javaFile)
         .processedWith(daggerProcessors())
@@ -73,7 +72,8 @@ public class CyclicModuleIncludesTest {
         .in(javaFile).onLine(6);
   }
 
-  @Test public void cyclicModuleIncludes_initial_inclusion() {
+  @Test
+  public void cyclicModuleIncludes_initial_inclusion() {
     assertAbout(javaSource())
         .that(javaFile)
         .processedWith(daggerProcessors())

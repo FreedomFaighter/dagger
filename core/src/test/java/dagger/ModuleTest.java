@@ -16,18 +16,17 @@
 package dagger;
 
 import dagger.internal.TestingLoader;
-import javax.inject.Inject;
-import javax.inject.Provider;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 //TODO: Migrate to compiler.
 
-@RunWith(JUnit4.class)
 public final class ModuleTest {
   static class TestEntryPoint {
     @Inject String s;
@@ -37,7 +36,8 @@ public final class ModuleTest {
   static class ModuleWithEntryPoint {
   }
 
-  @Test public void childModuleWithEntryPoint() {
+  @Test
+  public void childModuleWithEntryPoint() {
     @Module(includes = ModuleWithEntryPoint.class)
     class TestModule {
       @Provides String provideString() {
@@ -47,7 +47,7 @@ public final class ModuleTest {
 
     ObjectGraph objectGraph = ObjectGraph.createWith(new TestingLoader(), new TestModule());
     TestEntryPoint entryPoint = objectGraph.get(TestEntryPoint.class);
-    assertThat(entryPoint.s).isEqualTo("injected");
+    assertEquals(entryPoint.s, "injected");
   }
 
   static class TestStaticInjection {
@@ -58,7 +58,8 @@ public final class ModuleTest {
   static class ModuleWithStaticInjection {
   }
 
-  @Test public void childModuleWithStaticInjection() {
+  @Test
+  public void childModuleWithStaticInjection() {
     @Module(includes = ModuleWithStaticInjection.class)
     class TestModule {
       @Provides String provideString() {
@@ -69,7 +70,7 @@ public final class ModuleTest {
     ObjectGraph objectGraph = ObjectGraph.createWith(new TestingLoader(), new TestModule());
     TestStaticInjection.s = null;
     objectGraph.injectStatics();
-    assertThat(TestStaticInjection.s).isEqualTo("injected");
+    assertEquals(TestStaticInjection.s, "injected");
   }
 
   @Module
@@ -79,7 +80,8 @@ public final class ModuleTest {
     }
   }
 
-  @Test public void childModuleWithBinding() {
+  @Test
+  public void childModuleWithBinding() {
 
     @Module(
         injects = TestEntryPoint.class,
@@ -91,14 +93,15 @@ public final class ModuleTest {
     ObjectGraph objectGraph = ObjectGraph.createWith(new TestingLoader(), new TestModule());
     TestEntryPoint entryPoint = new TestEntryPoint();
     objectGraph.inject(entryPoint);
-    assertThat(entryPoint.s).isEqualTo("injected");
+    assertEquals(entryPoint.s, "injected");
   }
 
   @Module(includes = ModuleWithBinding.class)
   static class ModuleWithChildModule {
   }
 
-  @Test public void childModuleWithChildModule() {
+  @Test
+  public void childModuleWithChildModule() {
 
     @Module(
         injects = TestEntryPoint.class,
@@ -110,7 +113,7 @@ public final class ModuleTest {
     ObjectGraph objectGraph = ObjectGraph.createWith(new TestingLoader(), new TestModule());
     TestEntryPoint entryPoint = new TestEntryPoint();
     objectGraph.inject(entryPoint);
-    assertThat(entryPoint.s).isEqualTo("injected");
+    assertEquals(entryPoint.s, "injected");
   }
 
   @Module
@@ -126,7 +129,8 @@ public final class ModuleTest {
     }
   }
 
-  @Test public void childModuleMissingManualConstruction() {
+  @Test
+  public void childModuleMissingManualConstruction() {
     @Module(includes = ModuleWithConstructor.class)
     class TestModule {
     }
@@ -138,7 +142,8 @@ public final class ModuleTest {
     }
   }
 
-  @Test public void childModuleWithManualConstruction() {
+  @Test
+  public void childModuleWithManualConstruction() {
 
     @Module(
         injects = TestEntryPoint.class,
@@ -150,7 +155,7 @@ public final class ModuleTest {
     ObjectGraph objectGraph = ObjectGraph.createWith(new TestingLoader(), new ModuleWithConstructor("a"), new TestModule());
     TestEntryPoint entryPoint = new TestEntryPoint();
     objectGraph.inject(entryPoint);
-    assertThat(entryPoint.s).isEqualTo("a");
+    assertEquals(entryPoint.s, "a");
   }
 
   static class A {}
@@ -163,17 +168,19 @@ public final class ModuleTest {
 
   @Module(includes = TestModuleA.class, injects = B.class) public static class TestModuleB {}
 
-  @Test public void autoInstantiationOfModules() {
+  @Test
+  public void autoInstantiationOfModules() {
     // Have to make these non-method-scoped or instantiation errors occur.
     ObjectGraph objectGraph = ObjectGraph.createWith(new TestingLoader(), TestModuleA.class);
-    assertThat(objectGraph.get(A.class)).isNotNull();
+    assertNotNull(objectGraph.get(A.class));
   }
 
-  @Test public void autoInstantiationOfIncludedModules() {
+  @Test
+  public void autoInstantiationOfIncludedModules() {
     // Have to make these non-method-scoped or instantiation errors occur.
     ObjectGraph objectGraph = ObjectGraph.createWith(new TestingLoader(), new TestModuleB()); // TestModuleA auto-created.
-    assertThat(objectGraph.get(A.class)).isNotNull();
-    assertThat(objectGraph.get(B.class).a).isNotNull();
+    assertNotNull(objectGraph.get(A.class));
+    assertNotNull(objectGraph.get(B.class).a);
   }
 
   static class ModuleMissingModuleAnnotation {}
@@ -186,24 +193,26 @@ public final class ModuleTest {
     try {
       ObjectGraph.createWith(new TestingLoader(), new ChildModuleMissingModuleAnnotation());
     } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage())
-          .contains("No @Module on dagger.ModuleTest$ModuleMissingModuleAnnotation");
+      assertTrue(e.getMessage()
+          .contains("No @Module on dagger.ModuleTest$ModuleMissingModuleAnnotation"));
     }
   }
 
   @Module
   static class ThreadModule extends Thread {}
 
-  @Test public void moduleExtendingClassThrowsException() {
+  @Test
+  public void moduleExtendingClassThrowsException() {
     try {
       ObjectGraph.createWith(new TestingLoader(), new ThreadModule());
       fail();
     } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).startsWith("Modules must not extend from other classes: ");
+      assertTrue(e.getMessage().startsWith("Modules must not extend from other classes: "));
     }
   }
 
-  @Test public void provideProviderFails() {
+  @Test
+  public void provideProviderFails() {
     @Module
     class ProvidesProviderModule {
       @Provides Provider<Object> provideObject() {
@@ -214,12 +223,13 @@ public final class ModuleTest {
       ObjectGraph.createWith(new TestingLoader(), new ProvidesProviderModule());
       fail();
     } catch (IllegalStateException e) {
-      assertThat(e.getMessage()).startsWith("@Provides method must not return Provider directly: ");
-      assertThat(e.getMessage()).endsWith("ProvidesProviderModule.provideObject");
+      assertTrue(e.getMessage().startsWith("@Provides method must not return Provider directly: "));
+      assertTrue(e.getMessage().endsWith("ProvidesProviderModule.provideObject"));
     }
   }
 
-  @Test public void provideRawProviderFails() {
+  @Test
+  public void provideRawProviderFails() {
     @Module
     class ProvidesRawProviderModule {
       @Provides Provider provideObject() {
@@ -230,12 +240,13 @@ public final class ModuleTest {
       ObjectGraph.createWith(new TestingLoader(), new ProvidesRawProviderModule());
       fail();
     } catch (IllegalStateException e) {
-      assertThat(e.getMessage()).startsWith("@Provides method must not return Provider directly: ");
-      assertThat(e.getMessage()).endsWith("ProvidesRawProviderModule.provideObject");
+      assertTrue(e.getMessage().startsWith("@Provides method must not return Provider directly: "));
+      assertTrue(e.getMessage().endsWith("ProvidesRawProviderModule.provideObject"));
     }
   }
 
-  @Test public void provideLazyFails() {
+  @Test
+  public void provideLazyFails() {
     @Module
     class ProvidesLazyModule {
       @Provides Lazy<Object> provideObject() {
@@ -246,12 +257,13 @@ public final class ModuleTest {
       ObjectGraph.createWith(new TestingLoader(), new ProvidesLazyModule());
       fail();
     } catch (IllegalStateException e) {
-      assertThat(e.getMessage()).startsWith("@Provides method must not return Lazy directly: ");
-      assertThat(e.getMessage()).endsWith("ProvidesLazyModule.provideObject");
+      assertTrue(e.getMessage().startsWith("@Provides method must not return Lazy directly: "));
+      assertTrue(e.getMessage().endsWith("ProvidesLazyModule.provideObject"));
     }
   }
 
-  @Test public void provideRawLazyFails() {
+  @Test
+  public void provideRawLazyFails() {
     @Module
     class ProvidesRawLazyModule {
       @Provides Lazy provideObject() {
@@ -262,8 +274,8 @@ public final class ModuleTest {
       ObjectGraph.createWith(new TestingLoader(), new ProvidesRawLazyModule());
       fail();
     } catch (IllegalStateException e) {
-      assertThat(e.getMessage()).startsWith("@Provides method must not return Lazy directly: ");
-      assertThat(e.getMessage()).endsWith("ProvidesRawLazyModule.provideObject");
+      assertTrue(e.getMessage().startsWith("@Provides method must not return Lazy directly: "));
+      assertTrue(e.getMessage().endsWith("ProvidesRawLazyModule.provideObject"));
     }
   }
 }

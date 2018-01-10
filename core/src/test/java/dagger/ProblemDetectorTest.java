@@ -16,16 +16,14 @@
 package dagger;
 
 import dagger.internal.TestingLoader;
-import javax.inject.Inject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
-@RunWith(JUnit4.class)
 public final class ProblemDetectorTest {
-  @Test public void atInjectCircularDependenciesDetected() {
+  @Test
+  public void atInjectCircularDependenciesDetected() {
     class TestEntryPoint {
       @Inject Rock rock;
     }
@@ -42,7 +40,8 @@ public final class ProblemDetectorTest {
     }
   }
 
-  @Test public void providesCircularDependenciesDetected() {
+  @Test
+  public void providesCircularDependenciesDetected() {
     @Module
     class TestModule {
       @Provides Integer provideInteger(String s) {
@@ -61,7 +60,8 @@ public final class ProblemDetectorTest {
     }
   }
 
-  @Test public void validateLazy() {
+  @Test
+  public void validateLazy() {
     @Module(library = true)
     class TestModule {
       @Provides Integer dependOnLazy(Lazy<String> lazyString) {

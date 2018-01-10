@@ -18,20 +18,18 @@ package dagger.tests.integration.codegen;
 
 import com.google.testing.compile.JavaFileObjects;
 import javax.tools.JavaFileObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 import static dagger.tests.integration.ProcessorTestUtils.daggerProcessors;
-@RunWith(JUnit4.class)
 public final class GenericInjectAdapterGenerationTest {
 
-  @Test public void basicInjectAdapter() {
+  @Test
+  public void basicInjectAdapter() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("Basic", ""
         + "import dagger.Module;\n"
-        + "import javax.inject.Inject;\n"
+        + "import jakarta.inject.Inject;\n"
         + "class Basic {\n"
         + "  static class Simple {\n"
         + "    @Inject Simple() { }\n"

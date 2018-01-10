@@ -44,7 +44,7 @@
           <div class="span9">
             <h3 id="dagger2">Deprecated – Please upgrade to Dagger 2</h3>
             <p>Square's Dagger 1.x is deprecated in favor of <a href="https://github.com/google/dagger">Google's Dagger 2</a>.
-            Please see <a href="http://google.github.io/dagger/dagger-1-migration.html">the migration guide</a> for helpwith the upgrade.
+            Please see <a href="https://google.github.io/dagger/dagger-1-migration.html">the migration guide</a> for help with the upgrade.
 
             <h3 id="introduction">Introduction</h3>
 
@@ -54,7 +54,7 @@
 
             <p>Dagger is a replacement for these <code>FactoryFactory</code> classes. It allows you to focus on the interesting classes. Declare dependencies, specify how to satisfy them, and ship your app.</p>
 
-            <p>By building on standard <a href="http://atinject.googlecode.com/svn/trunk/javadoc/javax/inject/package-summary.html">javax.inject</a> annotations (JSR-330), each class is <strong>easy to test</strong>. You don't need a bunch of boilerplate just to swap the <code>RpcCreditCardService</code> out for a <code>FakeCreditCardService</code>.</p>
+            <p>By building on standard <a href="http://atinject.googlecode.com/svn/trunk/javadoc/javax/inject/package-summary.html">jakarta.inject</a> annotations (JSR-330), each class is <strong>easy to test</strong>. You don't need a bunch of boilerplate just to swap the <code>RpcCreditCardService</code> out for a <code>FakeCreditCardService</code>.</p>
 
             <p>Dependency injection isn't just for testing. It also makes it easy to create <strong>reusable, interchangeable modules</strong>. You can share the same <code>AuthenticationModule</code>  across all of your apps. And you can run <code>DevLoggingModule</code> during development and <code>ProdLoggingModule</code> in production to get the right behavior in each situation.</p>
 
@@ -65,7 +65,7 @@
 
             <h4>Declaring Dependencies</h4>
 
-            <p>Dagger constructs instances of your application classes and satisfies their dependencies. It uses the <code>javax.inject.Inject</code> annotation to identify which constructors and fields it is interested in.</p>
+            <p>Dagger constructs instances of your application classes and satisfies their dependencies. It uses the <code>jakarta.inject.Inject</code> annotation to identify which constructors and fields it is interested in.</p>
 
             <p>Use <code>@Inject</code> to annotate the constructor that Dagger should use to create instances of a class. When a new instance is requested, Dagger will obtain the required parameters values and invoke this constructor.</p>
 
@@ -228,7 +228,7 @@ class CoffeeMaker {
 
             <p>Sometimes the type alone is insufficient to identify a dependency. For example, a sophisticated coffee maker app may want separate heaters for the water and the hot plate.</p>
 
-            <p>In this case, we add a <strong>qualifier annotation</strong>. This is any annotation that itself has a <code>@Qualifier</code> annotation. Here's the declaration of <code>@Named</code>, a qualifier annotation included in <code>javax.inject</code>:</p>
+            <p>In this case, we add a <strong>qualifier annotation</strong>. This is any annotation that itself has a <code>@Qualifier</code> annotation. Here's the declaration of <code>@Named</code>, a qualifier annotation included in <code>jakarta.inject</code>:</p>
 
             <pre class="prettyprint">@Qualifier
 @Documented

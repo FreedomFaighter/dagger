@@ -2,7 +2,7 @@ package coffee;
 
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 @Module(
     injects = CoffeeApp.class,

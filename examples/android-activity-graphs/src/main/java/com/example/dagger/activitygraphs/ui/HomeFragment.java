@@ -21,7 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.dagger.activitygraphs.DemoBaseFragment;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import static android.view.Gravity.CENTER;
 

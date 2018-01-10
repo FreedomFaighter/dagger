@@ -18,21 +18,19 @@ package dagger;
 
 import dagger.internal.TestingLoader;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.inject.Inject;
-import javax.inject.Provider;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Tests of injection of Lazy<T> bindings.
  */
-@RunWith(JUnit4.class)
 public final class InjectionOfLazyTest {
-  @Test public void lazyValueCreation() {
+  @Test
+  public void lazyValueCreation() {
     final AtomicInteger counter = new AtomicInteger();
     class TestEntryPoint {
       @Inject Lazy<Integer> i;
@@ -55,7 +53,8 @@ public final class InjectionOfLazyTest {
     assertEquals(2, counter.get());
   }
 
-  @Test public void lazyNullCreation() {
+  @Test
+  public void lazyNullCreation() {
     final AtomicInteger provideCounter = new AtomicInteger(0);
     class TestEntryPoint {
       @Inject Lazy<String> i;
@@ -76,7 +75,8 @@ public final class InjectionOfLazyTest {
     assertEquals(1, provideCounter.get()); // still only called once.
   }
 
-  @Test public void providerOfLazyOfSomething() {
+  @Test
+  public void providerOfLazyOfSomething() {
     final AtomicInteger counter = new AtomicInteger();
     class TestEntryPoint {
       @Inject Provider<Lazy<Integer>> providerOfLazyInteger;
@@ -101,7 +101,8 @@ public final class InjectionOfLazyTest {
     assertEquals(1, i.get().intValue());
   }
 
-  @Test public void sideBySideLazyVsProvider() {
+  @Test
+  public void sideBySideLazyVsProvider() {
     final AtomicInteger counter = new AtomicInteger();
     class TestEntryPoint {
       @Inject Provider<Integer> providerOfInteger;

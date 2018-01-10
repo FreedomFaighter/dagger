@@ -18,16 +18,17 @@ package dagger;
 
 import dagger.internal.TestingLoader;
 import java.util.Arrays;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@RunWith(JUnit4.class)
+
 public final class ExtensionTest {
   @Singleton
   static class A {
@@ -55,59 +56,62 @@ public final class ExtensionTest {
   @Module(addsTo = RootModule.class, injects = { C.class, D.class })
   static class ExtensionModule { }
 
-  @Test public void basicExtension() {
+  @Test
+  public void basicExtension() {
     assertNotNull(ObjectGraph.createWith(new TestingLoader(), new RootModule())
         .plus(new ExtensionModule()));
   }
 
-  @Test public void basicInjection() {
+  @Test
+  public void basicInjection() {
     ObjectGraph root = ObjectGraph.createWith(new TestingLoader(), new RootModule());
-    assertThat(root.get(A.class)).isNotNull();
-    assertThat(root.get(A.class)).isSameAs(root.get(A.class)); // Present and Singleton.
-    assertThat(root.get(B.class)).isNotSameAs(root.get(B.class)); // Not singleton.
+    assertNotNull(root.get(A.class));
+    assertSame(root.get(A.class), root.get(A.class)); // Present and Singleton.
+    assertNotSame(root.get(B.class), root.get(B.class)); // Not singleton.
     assertFailInjectNotRegistered(root, C.class); // Not declared in RootModule.
     assertFailInjectNotRegistered(root, D.class); // Not declared in RootModule.
 
     // Extension graph behaves as the root graph would for root-ish things.
     ObjectGraph extension = root.plus(new ExtensionModule());
-    assertThat(root.get(A.class)).isSameAs(extension.get(A.class));
-    assertThat(root.get(B.class)).isNotSameAs(extension.get(B.class));
-    assertThat(root.get(B.class).a).isSameAs(extension.get(B.class).a);
+    assertSame(root.get(A.class), extension.get(A.class));
+    assertNotSame(root.get(B.class), extension.get(B.class));
+    assertSame(root.get(B.class).a, extension.get(B.class).a);
 
-    assertThat(extension.get(C.class).a).isNotNull();
-    assertThat(extension.get(D.class).c).isNotNull();
+    assertNotNull(extension.get(C.class).a);
+    assertNotNull(extension.get(D.class).c);
   }
 
-  @Test public void scopedGraphs() {
+  @Test
+  public void scopedGraphs() {
     ObjectGraph app = ObjectGraph.createWith(new TestingLoader(), new RootModule());
-    assertThat(app.get(A.class)).isNotNull();
-    assertThat(app.get(A.class)).isSameAs(app.get(A.class));
-    assertThat(app.get(B.class)).isNotSameAs(app.get(B.class));
+    assertNotNull(app.get(A.class));
+    assertSame(app.get(A.class), app.get(A.class));
+    assertNotSame(app.get(B.class), app.get(B.class));
     assertFailInjectNotRegistered(app, C.class);
     assertFailInjectNotRegistered(app, D.class);
 
     ObjectGraph request1 = app.plus(new ExtensionModule());
     ObjectGraph request2 = app.plus(new ExtensionModule());
     for (ObjectGraph request : Arrays.asList(request1, request2)) {
-      assertThat(request.get(A.class)).isNotNull();
-      assertThat(request.get(A.class)).isSameAs(request.get(A.class));
-      assertThat(request.get(B.class)).isNotSameAs(request.get(B.class));
-      assertThat(request.get(C.class)).isNotNull();
-      assertThat(request.get(C.class)).isSameAs(request.get(C.class));
-      assertThat(request.get(D.class)).isNotSameAs(request.get(D.class));
+      assertNotNull(request.get(A.class));
+      assertSame(request.get(A.class), request.get(A.class));
+      assertNotSame(request.get(B.class), request.get(B.class));
+      assertNotNull(request.get(C.class));
+      assertSame(request.get(C.class), request.get(C.class));
+      assertNotSame(request.get(D.class), request.get(D.class));
     }
 
     // Singletons are one-per-graph-instance where they are declared.
-    assertThat(request1.get(C.class)).isNotSameAs(request2.get(C.class));
+    assertNotSame(request1.get(C.class), request2.get(C.class));
     // Singletons that come from common roots should be one-per-common-graph-instance.
-    assertThat(request1.get(C.class).a).isSameAs(request2.get(C.class).a);
+    assertSame(request1.get(C.class).a, request2.get(C.class).a);
   }
 
   private void assertFailInjectNotRegistered(ObjectGraph graph, Class<?> clazz) {
     try {
-      assertThat(graph.get(clazz)).isNull();
+      assertNull(graph.get(clazz));
     } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains("No inject");
+      assertTrue(e.getMessage().contains("No inject"));
     }
   }
 }

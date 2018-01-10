@@ -13,14 +13,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+
 package dagger.tests.integration.validation;
 
 import com.google.testing.compile.JavaFileObjects;
 import javax.tools.JavaFileObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
@@ -34,7 +32,7 @@ import static java.util.Arrays.asList;
  */
 // TODO(cgruber): Audit this class when http://github.com/google/compile-testing
 //                has error/warning counts and other warning predicates available.
-@RunWith(JUnit4.class)
+/*
 public class ScopeAnnotationUseTest {
   private static final String ABSTRACTION_SCOPING_TEXT =
       "Scoping annotations are only allowed on concrete types and @Provides methods:";
@@ -43,10 +41,11 @@ public class ScopeAnnotationUseTest {
   //private static final String MISUSED_SCOPE_TEXT =
   //    "Dagger will ignore scoping annotations on methods that are not @Provides methods:";
 
-  @Test public void compileSucceedsScopeOnConcreteType() {
+  @Test
+  public void compileSucceedsScopeOnConcreteType() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("Test", ""
-        + "import javax.inject.Inject;\n"
-        + "import javax.inject.Singleton;\n"
+        + "import jakarta.inject.Inject;\n"
+        + "import jakarta.inject.Singleton;\n"
         + "@Singleton\n"
         + "class Test {\n"
         + "  @Inject public Test() { }\n"
@@ -61,11 +60,12 @@ public class ScopeAnnotationUseTest {
         //.and().hasNoWarnings();
   }
 
-  @Test public void compileSucceedsScopeOnProvidesMethod() {
+  @Test
+  public void compileSucceedsScopeOnProvidesMethod() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("Test", ""
         + "import dagger.Module;\n"
         + "import dagger.Provides;\n"
-        + "import javax.inject.Singleton;\n"
+        + "import jakarta.inject.Singleton;\n"
         + "@Module(library = true, injects = String.class)\n"
         + "class Test {\n"
         + "  @Provides @Singleton public String provideString() { return \"\"; }\n"
@@ -80,9 +80,10 @@ public class ScopeAnnotationUseTest {
         //.and().hasNoWarnings();
   }
 
-  @Test public void compileSucceedsWithScopedSuppressedNonProvidesMethod() {
+  @Test
+  public void compileSucceedsWithScopedSuppressedNonProvidesMethod() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("Test", ""
-        + "import javax.inject.Singleton;\n"
+        + "import jakarta.inject.Singleton;\n"
         + "class Test {\n"
         + "  @SuppressWarnings(\"scoping\")\n"
         + "  @Singleton void method() { }\n"
@@ -97,9 +98,10 @@ public class ScopeAnnotationUseTest {
         //.and().hasNoWarnings();
   }
 
-  @Test public void compileSucceedsWithScopedMultiplySuppressedNonProvidesMethod() {
+  @Test
+  public void compileSucceedsWithScopedMultiplySuppressedNonProvidesMethod() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("Test", ""
-        + "import javax.inject.Singleton;\n"
+        + "import jakarta.inject.Singleton;\n"
         + "class Test {\n"
         + "  @SuppressWarnings({\"blah\", \"scoping\", \"foo\"})\n"
         + "  @Singleton void method() { }\n"
@@ -114,9 +116,10 @@ public class ScopeAnnotationUseTest {
         //.and().hasNoWarnings();
   }
 
-  @Test public void compileWarnsWithScopedNonProvidesMethod() {
+  @Test
+  public void compileWarnsWithScopedNonProvidesMethod() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("Test", ""
-        + "import javax.inject.Singleton;\n"
+        + "import jakarta.inject.Singleton;\n"
         + "class Test {\n"
         + "  @Singleton void method() { }\n"
         + "}\n"
@@ -131,9 +134,10 @@ public class ScopeAnnotationUseTest {
         //.withWarningContaining("Test.method()").in(sourceFile).onLine(3).atColumn(49);
   }
 
-  @Test public void compileWarnsWithScopedIncorrectlySuppressedNonProvidesMethod() {
+  @Test
+  public void compileWarnsWithScopedIncorrectlySuppressedNonProvidesMethod() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("Test", ""
-        + "import javax.inject.Singleton;\n"
+        + "import jakarta.inject.Singleton;\n"
         + "class Test {\n"
         + "  @SuppressWarnings(\"some string other than 'scoping'\")\n"
         + "  @Singleton void method() { }\n"
@@ -149,10 +153,11 @@ public class ScopeAnnotationUseTest {
         //.withWarningContaining("Test.method()").in(sourceFile).onLine(4).atColumn(49);
   }
 
-  @Test public void compileFailsWithScopeOnInterface() {
+  @Test
+  public void compileFailsWithScopeOnInterface() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("Test", ""
         + "import dagger.Module;\n"
-        + "import javax.inject.Singleton;\n"
+        + "import jakarta.inject.Singleton;\n"
         + "class Test {\n"
         + "  @Module(injects = TestType.class) class TestModule { }\n"
         + "  @Singleton interface TestType { }\n"
@@ -169,10 +174,11 @@ public class ScopeAnnotationUseTest {
         .in(sourceFile).onLine(5).atColumn(14);
   }
 
-  @Test public void compileFailsWithScopeOnAbstractClass() {
+  @Test
+  public void compileFailsWithScopeOnAbstractClass() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("Test", ""
         + "import dagger.Module;\n"
-        + "import javax.inject.Singleton;\n"
+        + "import jakarta.inject.Singleton;\n"
         + "class Test {\n"
         + "  @Module(injects = TestType.class) class TestModule { }\n"
         + "  @Singleton abstract class TestType { }\n"
@@ -189,11 +195,12 @@ public class ScopeAnnotationUseTest {
         .in(sourceFile).onLine(5).atColumn(23);
   }
 
-  @Test public void compileFailsWithScopeOnField() {
+  @Test
+  public void compileFailsWithScopeOnField() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("Test", ""
         + "import dagger.Module;\n"
-        + "import javax.inject.Inject;\n"
-        + "import javax.inject.Singleton;\n"
+        + "import jakarta.inject.Inject;\n"
+        + "import jakarta.inject.Singleton;\n"
         + "class Test {\n"
         + "  @Singleton String field;\n"
         + "  @Inject public Test() { }\n"
@@ -211,11 +218,12 @@ public class ScopeAnnotationUseTest {
         .in(sourceFile).onLine(5).atColumn(21);
   }
 
-  @Test public void compileFailsWithScopeOnMethodParameter() {
+  @Test
+  public void compileFailsWithScopeOnMethodParameter() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("Test", ""
         + "import dagger.Module;\n"
         + "import dagger.Provides;\n"
-        + "import javax.inject.Singleton;\n"
+        + "import jakarta.inject.Singleton;\n"
         + "@Module(library = true, injects = String.class)\n"
         + "class Test {\n"
         + "  @Provides int provideInteger() { return 0; }\n"
@@ -233,10 +241,11 @@ public class ScopeAnnotationUseTest {
         .in(sourceFile).onLine(7).atColumn(49);
   }
 
-  @Test public void compileFailsWithMultipleScopeAnnotations() {
+  @Test
+  public void compileFailsWithMultipleScopeAnnotations() {
     JavaFileObject annotation = JavaFileObjects.forSourceString("MyScope", ""
         + "import java.lang.annotation.Retention;\n"
-        + "import javax.inject.Scope;\n"
+        + "import jakarta.inject.Scope;\n"
         + "import static java.lang.annotation.RetentionPolicy.RUNTIME;\n"
         + "@Scope @Retention(RUNTIME)\n"
         + "public @interface MyScope { }\n"
@@ -245,7 +254,7 @@ public class ScopeAnnotationUseTest {
     JavaFileObject module = JavaFileObjects.forSourceString("MyModule", ""
         + "import dagger.Module;\n"
         + "import dagger.Provides;\n"
-        + "import javax.inject.Singleton;\n"
+        + "import jakarta.inject.Singleton;\n"
         + "@Module(library = true, injects = Injectable.class)\n"
         + "class MyModule {\n"
         + "  @Provides @Singleton @MyScope String method() { return \"\"; }\n"
@@ -253,8 +262,8 @@ public class ScopeAnnotationUseTest {
     );
 
     JavaFileObject injectable = JavaFileObjects.forSourceString("Test", ""
-        + "import javax.inject.Inject;\n"
-        + "import javax.inject.Singleton;\n"
+        + "import jakarta.inject.Inject;\n"
+        + "import jakarta.inject.Singleton;\n"
         + "@Singleton @MyScope\n"
         + "class Injectable {\n"
         + "  @Inject String string;\n"
@@ -273,11 +282,12 @@ public class ScopeAnnotationUseTest {
         .in(injectable).onLine(4).atColumn(1);
   }
 
-  @Test public void compileFailsWithScopeOnConstructor() {
+  @Test
+  public void compileFailsWithScopeOnConstructor() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("Test", ""
         + "import dagger.Module;\n"
-        + "import javax.inject.Inject;\n"
-        + "import javax.inject.Singleton;\n"
+        + "import jakarta.inject.Inject;\n"
+        + "import jakarta.inject.Singleton;\n"
         + "class Test {\n"
         + "  @Singleton @Inject public Test() { }\n"
         + "  @Module(injects = Test.class) class TestModule { }\n"
@@ -301,3 +311,4 @@ public class ScopeAnnotationUseTest {
   }
 }
 
+*/

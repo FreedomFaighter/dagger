@@ -18,21 +18,19 @@ package dagger.tests.integration.validation;
 
 import com.google.testing.compile.JavaFileObjects;
 import javax.tools.JavaFileObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 import static dagger.tests.integration.ProcessorTestUtils.daggerProcessors;
 
-@RunWith(JUnit4.class)
 public class CyclicDependencyTest {
 
-  @Test public void cyclicDepsWithInjectables() {
+  @Test
+  public void cyclicDepsWithInjectables() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("CyclicDeps", ""
         + "import dagger.Module;\n"
-        + "import javax.inject.Inject;\n"
+        + "import jakarta.inject.Inject;\n"
         + "class CyclicDeps {\n"
         + "  static class Foo {\n"
         + "    @Inject Foo(Bar b) { }\n"
@@ -55,7 +53,8 @@ public class CyclicDependencyTest {
         .withErrorContaining("Dependency cycle:").in(sourceFile).onLine(17);
   }
 
-  @Test public void cyclicDepsWithProvidesMethods() {
+  @Test
+  public void cyclicDepsWithProvidesMethods() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("CyclicDeps", ""
         + "import dagger.Module;\n"
         + "import dagger.Provides;\n"

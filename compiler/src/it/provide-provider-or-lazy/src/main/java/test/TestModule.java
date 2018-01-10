@@ -18,7 +18,7 @@ package test;
 import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Provider;
+import jakarta.inject.Provider;
 
 @Module class TestModule {
   @Provides Provider<Object> provideProvider() {

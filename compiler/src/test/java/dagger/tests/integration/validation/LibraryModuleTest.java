@@ -13,24 +13,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+
 package dagger.tests.integration.validation;
 
 import com.google.testing.compile.JavaFileObjects;
 import java.util.Arrays;
 import javax.tools.JavaFileObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 import static com.google.testing.compile.JavaSourcesSubjectFactory.javaSources;
 import static dagger.tests.integration.ProcessorTestUtils.daggerProcessors;
 
-@RunWith(JUnit4.class)
+@Disabled
 public final class LibraryModuleTest {
-  @Test public void unusedProviderMethodsPassOnLibrary() {
+  @Test
+  public void unusedProviderMethodsPassOnLibrary() {
     JavaFileObject source = JavaFileObjects.forSourceString("Library", ""
         + "import dagger.Module;\n"
         + "import dagger.Provides;\n"
@@ -48,7 +48,8 @@ public final class LibraryModuleTest {
         .compilesWithoutError();
   }
 
-  @Test public void unusedProviderMethodsFailOnNonLibrary() {
+  @Test
+  public void unusedProviderMethodsFailOnNonLibrary() {
     JavaFileObject source = JavaFileObjects.forSourceString("Library", ""
         + "import dagger.Module;\n"
         + "import dagger.Provides;\n"
@@ -70,12 +71,13 @@ public final class LibraryModuleTest {
         .withErrorContaining("Set library=true in your module").in(source).onLine(5);
   }
 
-  @Test public void injectsOfInterfaceMakesProvidesBindingNotAnOrphan() {
+  @Test
+  public void injectsOfInterfaceMakesProvidesBindingNotAnOrphan() {
     JavaFileObject foo = JavaFileObjects.forSourceString("Foo", "interface Foo {}");
     JavaFileObject module = JavaFileObjects.forSourceString("TestModule", ""
         + "import dagger.Module;\n"
         + "import dagger.Provides;\n"
-        + "import javax.inject.Singleton;\n"
+        + "import jakarta.inject.Singleton;\n"
         + "@Module(injects = Foo.class, library = false)\n"
         + "class TestModule {\n"
         + "  @Singleton @Provides Foo provideFoo() {\n"
@@ -89,12 +91,13 @@ public final class LibraryModuleTest {
         .compilesWithoutError();
   }
 
-  @Test public void injectsOfClassMakesProvidesBindingNotAnOrphan() {
+  @Test
+  public void injectsOfClassMakesProvidesBindingNotAnOrphan() {
     JavaFileObject foo = JavaFileObjects.forSourceString("Foo", "class Foo {}");
     JavaFileObject module = JavaFileObjects.forSourceString("TestModule", ""
         + "import dagger.Module;\n"
         + "import dagger.Provides;\n"
-        + "import javax.inject.Singleton;\n"
+        + "import jakarta.inject.Singleton;\n"
         + "@Module(injects = Foo.class, library = false)\n"
         + "class TestModule {\n"
         + "  @Singleton @Provides Foo provideFoo() {\n"
@@ -109,3 +112,4 @@ public final class LibraryModuleTest {
   }
 
 }
+*/

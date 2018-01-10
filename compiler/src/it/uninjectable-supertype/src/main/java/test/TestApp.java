@@ -17,7 +17,7 @@ package test;
 
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 class TestApp {
   static class NotInjectable {
