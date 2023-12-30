@@ -24,9 +24,9 @@ jobs:
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-    #- name: Build with Maven
-    #  run: mvn -B package  -Djava.version=${{ matrix.java }}
-    #- name: Test with Maven
-    #  run: mvn -B test -Djava.version=${{ matrix.java }}
-    - name: Clean and Deploy with Maven
-      run: mvn clean source:jar javadoc:jar deploy --settings=".buildscript/settings.xml" -Dmaven.test.skip=true -Dinvoker.skip=true
+    - name: Build with Maven
+      run: mvn -B package  -Djava.version=${{ matrix.java }}
+    - name: Test with Maven
+      run: mvn -B test -Djava.version=${{ matrix.java }}
+    #- name: Clean and Deploy with Maven
+    #  run: mvn clean source:jar javadoc:jar deploy --settings=".buildscript/settings.xml" -Dmaven.test.skip=true -Dinvoker.skip=true
