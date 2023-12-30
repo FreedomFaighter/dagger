@@ -19,19 +19,16 @@ package dagger;
 import dagger.internal.TestingLoader;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
 import static dagger.Provides.Type.SET;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static com.google.common.truth.Truth.assertThat;
 
-@RunWith(JUnit4.class)
 public final class ExtensionWithSetBindingsTest {
   private static final AtomicInteger counter = new AtomicInteger(0);
 
@@ -67,7 +64,8 @@ public final class ExtensionWithSetBindingsTest {
     @Provides @Singleton String provideBar() { return "bar"; }
   }
 
-  @Test public void basicInjectionWithExtension() {
+  @Test
+  public void basicInjectionWithExtension() {
     ObjectGraph root = ObjectGraph.createWith(new TestingLoader(), new RootModule());
     RealSingleton rs = root.get(RealSingleton.class);
     assertThat(rs.ints).containsExactly(0, 1);
@@ -87,7 +85,8 @@ public final class ExtensionWithSetBindingsTest {
     @Provides(type=SET) @Singleton Integer provide9999() { return 9999; }
   }
 
-  @Test public void basicInjectionWithExtensionAndOverrides() {
+  @Test
+  public void basicInjectionWithExtensionAndOverrides() {
     try {
       ObjectGraph.createWith(new TestingLoader(), new RootModule()).plus(new TestModule());
       fail("Should throw exception.");
@@ -96,7 +95,8 @@ public final class ExtensionWithSetBindingsTest {
     }
   }
 
-  @Test public void duplicateBindingsInSecondaryModule() {
+  @Test
+  public void duplicateBindingsInSecondaryModule() {
     try {
       ObjectGraph.createWith(new TestingLoader(), new EmptyModule(), new DuplicateModule());
       fail("Should throw exception.");

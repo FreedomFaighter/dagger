@@ -19,7 +19,7 @@ import dagger.Module;
 
 import dagger.ObjectGraph;
 import dagger.Provides;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import java.lang.Override;
 

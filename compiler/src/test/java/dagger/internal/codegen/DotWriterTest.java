@@ -17,18 +17,16 @@ package dagger.internal.codegen;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(JUnit4.class)
 public final class DotWriterTest {
   private final StringWriter stringWriter = new StringWriter();
   private final GraphVizWriter dotWriter = new GraphVizWriter(stringWriter);
 
-  @Test public void graphWithAttributes() throws IOException {
+  @Test
+  public void graphWithAttributes() throws IOException {
     dotWriter.beginGraph();
     dotWriter.edge("CoffeeMaker", "Heater", "style", "dotted", "color", "red");
     dotWriter.edge("CoffeeMaker", "Pump");
@@ -42,7 +40,8 @@ public final class DotWriterTest {
         + "}\n");
   }
 
-  @Test public void subgraph() throws IOException {
+  @Test
+  public void subgraph() throws IOException {
     dotWriter.beginGraph("label", "10\" tall");
     dotWriter.beginGraph("style", "filled", "color", "lightgrey");
     dotWriter.edge("ElectricHeater", "Heater");
@@ -63,7 +62,8 @@ public final class DotWriterTest {
         + "}\n");
   }
 
-  @Test public void defaultAttributes() throws IOException {
+  @Test
+  public void defaultAttributes() throws IOException {
     dotWriter.beginGraph();
     dotWriter.nodeDefaults("color", "red");
     dotWriter.edgeDefaults("style", "dotted");
@@ -77,7 +77,8 @@ public final class DotWriterTest {
         + "}\n");
   }
 
-  @Test public void invalidNodeNames() throws IOException {
+  @Test
+  public void invalidNodeNames() throws IOException {
     dotWriter.beginGraph();
     dotWriter.edge("a.b", "a c");
     dotWriter.edge("a c", "a_d");
@@ -92,6 +93,6 @@ public final class DotWriterTest {
   }
 
   private void assertGraph(String expected) {
-    assertThat(stringWriter.toString()).isEqualTo(expected);
+    assertEquals(stringWriter.toString(), expected);
   }
 }

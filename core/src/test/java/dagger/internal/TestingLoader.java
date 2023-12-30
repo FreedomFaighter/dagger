@@ -25,12 +25,14 @@ import dagger.internal.loaders.ReflectiveStaticInjection;
  */
 public final class TestingLoader extends Loader {
 
-  @Override public <T> ModuleAdapter<T> getModuleAdapter(Class<T> type) {
+  @Override
+  public <T> ModuleAdapter<T> getModuleAdapter(Class<T> type) {
     ModuleAdapter<T> adapter = TestingModuleAdapter.create(type);
     return adapter;
   }
 
-  @Override public Binding<?> getAtInjectBinding(String key, String className, ClassLoader ignored,
+  @Override
+  public Binding<?> getAtInjectBinding(String key, String className, ClassLoader ignored,
       boolean mustHaveInjections) {
      try {
       Class<?> type = getClass().getClassLoader().loadClass(className);
@@ -44,7 +46,8 @@ public final class TestingLoader extends Loader {
     }
   }
 
-  @Override public StaticInjection getStaticInjection(Class<?> injectedClass) {
+  @Override
+  public StaticInjection getStaticInjection(Class<?> injectedClass) {
     return ReflectiveStaticInjection.create(injectedClass);
   }
 }

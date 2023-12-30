@@ -19,14 +19,13 @@ package dagger.tests.integration.operation;
 import dagger.Module;
 import dagger.ObjectGraph;
 import dagger.Provides;
-import javax.inject.Inject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@RunWith(JUnit4.class)
+
 public final class SimpleInjectionTest {
   static abstract class AbstractFoo {
     @Inject String blah;
@@ -49,21 +48,24 @@ public final class SimpleInjectionTest {
     }
   }
 
-  @Test public void memberInject_WithoutProvidesMethod() {
+  @Test
+  public void memberInject_WithoutProvidesMethod() {
     Foo foo = new Foo();
     ObjectGraph.create(FooModule.class).inject(foo);
-    assertThat(foo.blah).isEqualTo("blah");
+    assertEquals(foo.blah, "blah");
   }
 
-  @Test public void membersInject_WithProvidesMethod() {
+  @Test
+  public void membersInject_WithProvidesMethod() {
     Foo foo = new Foo();
     ObjectGraph.create(ProvidingFooModule.class).inject(foo);
-    assertThat(foo.blah).isEqualTo("blah");
+    assertEquals(foo.blah, "blah");
   }
 
-  @Test public void get_WithProvidesMethod() {
+  @Test
+  public void get_WithProvidesMethod() {
     Foo foo = ObjectGraph.create(ProvidingFooModule.class).get(Foo.class);
-    assertThat(foo.blah).isEqualTo("blah");
+    assertEquals(foo.blah, "blah");
   }
 
   static class Bar { }
@@ -72,7 +74,8 @@ public final class SimpleInjectionTest {
   static class BarModule {
   }
 
-  @Test public void membersInject_WithNonInjectable() {
+  @Test
+  public void membersInject_WithNonInjectable() {
     Bar bar = new Bar();
     ObjectGraph.create(BarModule.class).inject(bar);
   }
@@ -82,9 +85,10 @@ public final class SimpleInjectionTest {
     @Provides public Bar bar() { return new Bar(); }
   }
 
-  @Test public void membersInject_WithProvidedNonInjectable() {
+  @Test
+  public void membersInject_WithProvidedNonInjectable() {
     Bar bar = ObjectGraph.create(ProvidingBarModule.class).get(Bar.class);
-    assertThat(bar).isNotNull();
+    assertNotNull(bar);
   }
 
 }

@@ -36,8 +36,8 @@ import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -71,7 +71,7 @@ import static javax.lang.model.element.Modifier.STATIC;
  * Generates an implementation of {@link Binding} that injects the
  * {@literal @}{@code Inject}-annotated members of a class.
  */
-@SupportedAnnotationTypes("javax.inject.Inject")
+@SupportedAnnotationTypes("jakarta.inject.Inject")
 public final class InjectAdapterProcessor extends AbstractProcessor {
   private final Set<String> remainingTypeNames = new LinkedHashSet<String>();
 

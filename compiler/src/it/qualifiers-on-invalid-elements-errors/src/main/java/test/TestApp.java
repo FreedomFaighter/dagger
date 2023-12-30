@@ -19,8 +19,8 @@ package test;
 import dagger.Module;
 import dagger.Provides;
 import java.lang.annotation.Retention;
-import javax.inject.Inject;
-import javax.inject.Qualifier;
+import jakarta.inject.Inject;
+import jakarta.inject.Qualifier;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 

@@ -18,8 +18,8 @@ package test;
 
 import dagger.ObjectGraph;
 import dagger.Module;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 class TestApp implements Runnable {
   @Inject C c;

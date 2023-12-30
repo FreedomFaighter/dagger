@@ -17,7 +17,7 @@ package dagger.internal.codegen;
 
 import dagger.internal.Linker;
 import dagger.internal.StaticInjection;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.lang.model.element.Element;
 
 import static dagger.internal.codegen.Util.isStatic;

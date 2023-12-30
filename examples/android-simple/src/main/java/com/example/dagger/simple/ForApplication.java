@@ -16,7 +16,7 @@
 package com.example.dagger.simple;
 
 import java.lang.annotation.Retention;
-import javax.inject.Qualifier;
+import jakarta.inject.Qualifier;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 

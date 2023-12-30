@@ -17,22 +17,20 @@
 package dagger.tests.integration.validation;
 
 import com.google.testing.compile.JavaFileObjects;
-import javax.tools.JavaFileObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.tools.JavaFileObject;
+import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 import static dagger.tests.integration.ProcessorTestUtils.daggerProcessors;
 
-@RunWith(JUnit4.class)
 public class SimpleMissingDependencyTest {
 
-  @Test public void missingDependency() {
+  @Test
+  public void missingDependency() {
     JavaFileObject file = JavaFileObjects.forSourceString("MissingDep", ""
         + "import dagger.Module;\n"
-        + "import javax.inject.Inject;\n"
+        + "import jakarta.inject.Inject;\n"
         + "class MissingDep {\n"
         + "  @Inject Dependency dep;\n"
         + "  static interface Dependency {\n"

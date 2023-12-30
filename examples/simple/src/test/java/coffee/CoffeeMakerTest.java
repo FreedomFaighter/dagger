@@ -18,9 +18,9 @@ package coffee;
 import dagger.Module;
 import dagger.ObjectGraph;
 import dagger.Provides;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import org.junit.jupiter.api.Before;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -28,7 +28,7 @@ public class CoffeeMakerTest {
   @Inject CoffeeMaker coffeeMaker;
   @Inject Heater heater;
 
-  @Before
+  @BeforeAll
   public static void setUp() {
     ObjectGraph.create(new TestModule()).inject(this);
   }

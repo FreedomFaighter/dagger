@@ -16,22 +16,21 @@
 package dagger;
 
 import dagger.internal.TestingLoader;
-import javax.inject.Inject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(JUnit4.class)
 public final class LazyInjectionTest {
-  @Test public void getLazyDoesNotCauseInjectedTypesToBeLoaded() {
+  @Test
+  public void getLazyDoesNotCauseInjectedTypesToBeLoaded() {
     @Module(injects = LazyEntryPoint.class)
     class TestModule {
     }
 
     ObjectGraph.createWith(new TestingLoader(), new TestModule());
-    assertThat(lazyEntryPointLoaded).isFalse();
+    assertFalse(lazyEntryPointLoaded);
   }
 
   private static boolean lazyEntryPointLoaded = false;
@@ -41,7 +40,8 @@ public final class LazyInjectionTest {
     }
   }
 
-  @Test public void getLazyDoesNotCauseProvidesParametersToBeLoaded() {
+  @Test
+  public void getLazyDoesNotCauseProvidesParametersToBeLoaded() {
     @Module
     class TestModule {
       @Provides Object provideObject(LazyProvidesParameter parameter) {
@@ -50,7 +50,7 @@ public final class LazyInjectionTest {
     }
 
     ObjectGraph.createWith(new TestingLoader(), new TestModule());
-    assertThat(lazyProvidesParameterLoaded).isFalse();
+    assertFalse(lazyProvidesParameterLoaded);
   }
 
   private static boolean lazyProvidesParameterLoaded = false;
@@ -60,7 +60,8 @@ public final class LazyInjectionTest {
     }
   }
 
-  @Test public void getLazyDoesNotCauseProvidesResultToBeLoaded() {
+  @Test
+  public void getLazyDoesNotCauseProvidesResultToBeLoaded() {
     @Module
     class TestModule {
       @Provides LazyProvidesResult provideLazy() {
@@ -69,7 +70,7 @@ public final class LazyInjectionTest {
     }
 
     ObjectGraph.createWith(new TestingLoader(), new TestModule());
-    assertThat(lazyProvidesResultLoaded).isFalse();
+    assertFalse(lazyProvidesResultLoaded);
   }
 
   private static boolean lazyProvidesResultLoaded = false;
@@ -79,13 +80,14 @@ public final class LazyInjectionTest {
     }
   }
 
-  @Test public void getLazyDoesNotCauseStaticsToBeLoaded() {
+  @Test
+  public void getLazyDoesNotCauseStaticsToBeLoaded() {
     @Module(staticInjections = LazyInjectStatics.class)
     class TestModule {
     }
 
     ObjectGraph.createWith(new TestingLoader(), new TestModule());
-    assertThat(LazyInjectStaticsLoaded).isFalse();
+    assertFalse(LazyInjectStaticsLoaded);
   }
 
   private static boolean LazyInjectStaticsLoaded = false;
@@ -113,6 +115,6 @@ public final class LazyInjectionTest {
     ObjectGraph objectGraph = ObjectGraph.createWith(new TestingLoader(), new TestModule());
     TestEntryPoint entryPoint = new TestEntryPoint();
     objectGraph.inject(entryPoint);
-    assertThat(entryPoint.injected).isEqualTo("5");
+    assertEquals(entryPoint.injected, "5");
   }
 }

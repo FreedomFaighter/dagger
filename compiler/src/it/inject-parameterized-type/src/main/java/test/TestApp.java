@@ -18,7 +18,7 @@ package test;
 import dagger.Module;
 import dagger.ObjectGraph;
 import dagger.Provides;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 class TestApp {
   public static void main(String[] args) {

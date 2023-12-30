@@ -19,14 +19,13 @@ package dagger.tests.integration.operation;
 import dagger.Module;
 import dagger.ObjectGraph;
 import dagger.Provides;
-import javax.inject.Inject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(JUnit4.class)
+
 public final class PrimitiveInjectionTest {
   static class ArrayInjectable {
     @Inject byte[] byteArray;
@@ -49,16 +48,17 @@ public final class PrimitiveInjectionTest {
     @Provides double[] provideDouble() { return new double[] { Double.MAX_VALUE }; }
   }
 
-  @Test public void primitiveArrayTypesAllInjected() {
+  @Test
+  public void primitiveArrayTypesAllInjected() {
     ArrayInjectable result = ObjectGraph.create(PrimitiveArrayModule.class)
         .get(ArrayInjectable.class);
-    assertThat(result).isNotNull();
-    assertThat(result.byteArray).isEqualTo(new byte[] { Byte.MAX_VALUE });
-    assertThat(result.integerArray).isEqualTo(new int[] { Integer.MAX_VALUE });
-    assertThat(result.booleanArray).isEqualTo(new boolean[] { true });
-    assertThat(result.charArray).isEqualTo(new char[] { Character.MAX_VALUE });
-    assertThat(result.longArray).isEqualTo(new long[] { Long.MAX_VALUE });
-    assertThat(result.floatArray).hasValuesWithin(0).of(new float[] { Float.MAX_VALUE });
-    assertThat(result.doubleArray).hasValuesWithin(0).of(new double[] { Double.MAX_VALUE });
+    assertNotNull(result).isNotNull();
+    assertEquals(result.byteArray, new byte[] { Byte.MAX_VALUE });
+    assertEquals(result.integerArray, new int[] { Integer.MAX_VALUE });
+    assertEquals(result.booleanArray, new boolean[] { true });
+    assertEquals(result.charArray, new char[] { Character.MAX_VALUE });
+    assertEquals(result.longArray, new long[] { Long.MAX_VALUE });
+    assertEquals(result.floatArray, new float[] { Float.MAX_VALUE });
+    assertEquals(result.doubleArray, new double[] { Double.MAX_VALUE });
   }
 }

@@ -19,7 +19,7 @@ package test;
 import dagger.Module;
 
 import dagger.ObjectGraph;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 class TestApp implements Runnable {
   @Inject Dependency dep;

@@ -17,7 +17,7 @@ package dagger.internal;
 
 import dagger.MembersInjector;
 import java.util.Set;
-import javax.inject.Provider;
+import jakarta.inject.Provider;
 
 /**
  * Injects a value of a specific type.

@@ -18,16 +18,13 @@ package dagger.tests.integration.operation;
 
 import dagger.Module;
 import dagger.ObjectGraph;
-import javax.inject.Inject;
-import javax.inject.Qualifier;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import jakarta.inject.Qualifier;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
-import static junit.framework.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
-@RunWith(JUnit4.class)
 public final class FailureModeErrorsTest {
 
   @Module
@@ -40,20 +37,22 @@ public final class FailureModeErrorsTest {
   @Module(injects = ArrayFoo.class, complete = false)
   static class ArrayFooModule {}
 
-  @Test public void failOnMissingModule_arrayorgenerics() {
+  @Test
+  public void failOnMissingModule_arrayorgenerics() {
     // Generics here are crazy to try to test for, but this code path is legit regardless.
     try {
       ObjectGraph.create(new CompleteModule(), new ArrayFooModule()).get(ArrayFoo.class);
       fail("Should have thrown.");
     } catch (IllegalStateException e) {
-      assertThat(e.getMessage()).contains(
+      assertTrue(e.getMessage().contains(
           "java.lang.String[] is a generic class or an array and can only be bound with "
           + "concrete type parameter(s) in a @Provides method. required by class "
-          + "dagger.tests.integration.operation.FailureModeErrorsTest$ArrayFoo");
+          + "dagger.tests.integration.operation.FailureModeErrorsTest$ArrayFoo"));
     }
   }
 
-  @Qualifier @interface MyFoo {}
+  @Qualifier
+  @interface MyFoo {}
 
   static class QualifyingFoo {
     @Inject QualifyingFoo(@MyFoo String ignored) {}
@@ -62,15 +61,16 @@ public final class FailureModeErrorsTest {
   @Module(injects = QualifyingFoo.class, complete = false)
   static class QualifyingFooModule {}
 
-  @Test public void failOnMissingModule_qualified() {
+  @Test
+  public void failOnMissingModule_qualified() {
     try {
       ObjectGraph.create(new CompleteModule(), new QualifyingFooModule()).get(QualifyingFoo.class);
       fail("Should have thrown.");
     } catch (IllegalStateException e) {
-      assertThat(e.getMessage()).contains(
+      assertTrue(e.getMessage().contains(
           "@dagger.tests.integration.operation.FailureModeErrorsTest$MyFoo()/java.lang.String "
           + "is a @Qualifier-annotated type and must be bound by a @Provides method. required by "
-          + "class dagger.tests.integration.operation.FailureModeErrorsTest$QualifyingFoo");
+          + "class dagger.tests.integration.operation.FailureModeErrorsTest$QualifyingFoo"));
     }
   }
 }

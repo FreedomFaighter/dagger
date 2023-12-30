@@ -23,8 +23,8 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Set;
-import javax.inject.Provider;
-import javax.inject.Qualifier;
+import jakarta.inject.Provider;
+import jakarta.inject.Qualifier;
 
 /**
  * Formats strings that identify the value to be injected. Keys are of one of

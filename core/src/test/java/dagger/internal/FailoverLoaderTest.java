@@ -19,18 +19,15 @@ package dagger.internal;
 import dagger.Module;
 import dagger.ObjectGraph;
 import dagger.Provides;
-import javax.inject.Inject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * A test case to deal with fall-back to reflection where the concrete type has been generated
  * but the parent has no {@code @Inject} annotation, and so has not been generated.
  */
-@RunWith(JUnit4.class)
 public final class FailoverLoaderTest {
 
   @Module(injects = Entry$Point.class)
@@ -49,9 +46,10 @@ public final class FailoverLoaderTest {
     @Inject String a;
   }
 
-  @Test public void simpleInjectionWithUnGeneratedCode() {
+  @Test
+  public void simpleInjectionWithUnGeneratedCode() {
     Entry$Point entryPoint = new Entry$Point();
     ObjectGraph.create(new TestModule()).inject(entryPoint);
-    assertThat(entryPoint.a).isEqualTo("a");
+    assertEquals(entryPoint.a, "a");
   }
 }

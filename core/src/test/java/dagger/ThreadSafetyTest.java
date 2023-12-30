@@ -26,18 +26,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test Singleton and Lazy bindings for thread-safety.
  */
-@RunWith(JUnit4.class)
 public final class ThreadSafetyTest {
   private static final Integer FIRST_VALUE = 0;
   private static final int THREAD_COUNT = 100;
@@ -86,9 +83,7 @@ public final class ThreadSafetyTest {
     }
     latch.countDown();
     for (Future<Long> future : futures) {
-      assertThat(future.get(1, TimeUnit.SECONDS))
-          .named("Lock failure - count should never increment")
-          .isEqualTo(0);
+      assertEquals(future.get(1, TimeUnit.SECONDS), 0);
     }
   }
 
@@ -107,9 +102,7 @@ public final class ThreadSafetyTest {
     }
     latch.countDown();
     for (Future<Integer> future : futures) {
-      assertThat(future.get(1, TimeUnit.SECONDS))
-          .named("Lock failure - count should never increment")
-          .isEqualTo(0);
+      assertEquals(future.get(1, TimeUnit.SECONDS), 0);
     }
   }
 }

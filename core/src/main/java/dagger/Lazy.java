@@ -62,7 +62,7 @@ package dagger;
  * </code></pre>
  *
  * <h3>Provider Injection</h3>
- * This class injects a {@linkplain javax.inject.Provider provider} for the
+ * This class injects a {@linkplain jakarta.inject.Provider provider} for the
  * integer. It calls {@code Provider.get()} 3 times and prints each result:
  * <pre><code>
  *   public class ProviderCounter {
@@ -141,7 +141,7 @@ package dagger;
  *   101
  *   101
  * </code></pre>
- * Use {@linkplain javax.inject.Singleton @Singleton} to share one instance
+ * Use {@linkplain jakarta.inject.Singleton @Singleton} to share one instance
  * among all clients, and {@code Lazy} for lazy computation in a single client.
  */
 public interface Lazy<T> {

@@ -21,15 +21,13 @@ import com.google.testing.compile.JavaFileObjects;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Set;
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.lang.model.SourceVersion;
-import javax.lang.model.element.TypeElement;
-import javax.tools.JavaFileObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.annotation.processing.AbstractProcessor;
+import jakarta.annotation.processing.RoundEnvironment;
+import jakarta.annotation.processing.SupportedAnnotationTypes;
+import jakarta.lang.model.SourceVersion;
+import jakarta.lang.model.element.TypeElement;
+import jakarta.tools.JavaFileObject;
+import org.junit.jupiter.api.Test;
 
 import static com.google.common.collect.Iterables.concat;
 import static com.google.testing.compile.JavaSourcesSubjectFactory.javaSources;
@@ -49,14 +47,15 @@ public class GeneratedTypesNotReadyTest {
       + "public interface Foo {}\n"
   );
   private final JavaFileObject main = JavaFileObjects.forSourceString("Main", ""
-      + "import javax.inject.Inject;\n"
+      + "import jakarta.inject.Inject;\n"
       + "import myPackage.Foo;\n"
       + "class Main {\n"
       + "  @Inject Foo f;\n"
       + "}\n"
   );
 
-  @Test public void withstandsMissingTypeReferencedInInjects() {
+  @Test
+  public void withstandsMissingTypeReferencedInInjects() {
     // TODO(cgruber): remove Foo (interface) from this when injects= analysis is fixed.
     JavaFileObject module = JavaFileObjects.forSourceString("FooModule", ""
         + "import dagger.Module;\n"
@@ -76,7 +75,8 @@ public class GeneratedTypesNotReadyTest {
         .compilesWithoutError();
   }
 
-  @Test public void withstandsMissingTypeReferencedInsideModule() {
+  @Test
+  public void withstandsMissingTypeReferencedInsideModule() {
     JavaFileObject module = JavaFileObjects.forSourceString("FooModule", ""
         + "import dagger.Module;\n"
         + "import dagger.Provides;\n"
@@ -95,9 +95,10 @@ public class GeneratedTypesNotReadyTest {
         .compilesWithoutError();
   }
 
-  @Test public void withstandsMissingTypeReferencedByProvidesReturnType() {
+  @Test
+  public void withstandsMissingTypeReferencedByProvidesReturnType() {
     JavaFileObject main = JavaFileObjects.forSourceString("Main", ""
-        + "import javax.inject.Inject;\n"
+        + "import jakarta.inject.Inject;\n"
         + "class Main {\n"
         + "  @Inject myPackage.FooImpl f;\n"
         + "}\n"
@@ -119,9 +120,10 @@ public class GeneratedTypesNotReadyTest {
         .compilesWithoutError();
   }
 
-  @Test public void failsWhenMissingGenericTypeReferencedByProvidesReturnType() {
+  @Test
+  public void failsWhenMissingGenericTypeReferencedByProvidesReturnType() {
     JavaFileObject main = JavaFileObjects.forSourceString("Main", Joiner.on("\n").join(
-        "import javax.inject.Inject;",
+        "import jakarta.inject.Inject;",
         "class Main {",
         "  @Inject myPackage.FooImpl2<String> f;",
         "}"));
@@ -146,9 +148,10 @@ public class GeneratedTypesNotReadyTest {
         .withErrorContaining("Could not find types required by provides methods for [FooModule]");
   }
 
-  @Test public void withstandsMissingTypeReferencedInTransitiveJITDependency() {
+  @Test
+  public void withstandsMissingTypeReferencedInTransitiveJITDependency() {
     JavaFileObject main = JavaFileObjects.forSourceString("Main", ""
-        + "import javax.inject.Inject;\n"
+        + "import jakarta.inject.Inject;\n"
         + "import myPackage.FooImpl;\n"
         + "class Main {\n"
         + "  @Inject FooImpl f;\n"
@@ -168,7 +171,8 @@ public class GeneratedTypesNotReadyTest {
         .compilesWithoutError();
   }
 
-  @Test public void verifyFooImplGeneratorIsCompilingWithoutDagger() {
+  @Test
+  public void verifyFooImplGeneratorIsCompilingWithoutDagger() {
     JavaFileObject module = JavaFileObjects.forSourceString("FooModule", ""
         + "import dagger.Module;\n"
         + "import dagger.Provides;\n"
@@ -196,7 +200,7 @@ public class GeneratedTypesNotReadyTest {
           Writer writer = sourceFile.openWriter();
           writer.write(""
               + "package myPackage;\n"
-              + "import javax.inject.Inject;\n"
+              + "import jakarta.inject.Inject;\n"
               + "public final class FooImpl implements Foo {\n"
               + "  @Inject public FooImpl() { }\n"
               + "}\n"
@@ -206,7 +210,7 @@ public class GeneratedTypesNotReadyTest {
           writer = sourceFile.openWriter();
           writer.write(""
               + "package myPackage;\n"
-              + "import javax.inject.Inject;\n"
+              + "import jakarta.inject.Inject;\n"
               + "public final class FooImpl2<T> implements Foo {\n"
               + "  @Inject public FooImpl2() { }\n"
               + "}\n"
@@ -220,7 +224,8 @@ public class GeneratedTypesNotReadyTest {
       return false;
     }
 
-    @Override public SourceVersion getSupportedSourceVersion() {
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
       return SourceVersion.latestSupported();
     }
   }

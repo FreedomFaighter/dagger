@@ -17,10 +17,8 @@
 package dagger.tests.integration.codegen;
 
 import com.google.testing.compile.JavaFileObjects;
-import javax.tools.JavaFileObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.tools.JavaFileObject;
+import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
@@ -28,7 +26,6 @@ import static com.google.testing.compile.JavaSourcesSubjectFactory.javaSources;
 import static dagger.tests.integration.ProcessorTestUtils.daggerProcessors;
 import static java.util.Arrays.asList;
 
-@RunWith(JUnit4.class)
 public final class ModuleAdapterGenerationTest {
   /**
    * Shows current behavior for a {@link dagger.Provides provides method}
@@ -45,11 +42,12 @@ public final class ModuleAdapterGenerationTest {
    *   {@link dagger.internal.Binding#get}</li>
    * </ul>
    */
-  @Test public void providerForCtorInjection() {
+  @Test
+  public void providerForCtorInjection() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("Field", ""
         + "import dagger.Module;\n"
         + "import dagger.Provides;\n"
-        + "import javax.inject.Inject;\n"
+        + "import jakarta.inject.Inject;\n"
         + "class Field {\n"
         + "  static class A { final String name; @Inject A(String name) { this.name = name; }}\n"
         + "  @Module(injects = { A.class, String.class })\n"
@@ -135,11 +133,12 @@ public final class ModuleAdapterGenerationTest {
 
   }
 
-  @Test public void injectsMembersInjectedAndProvidedAndConstructedTypes() {
+  @Test
+  public void injectsMembersInjectedAndProvidedAndConstructedTypes() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("Field", ""
         + "import dagger.Module;\n"
         + "import dagger.Provides;\n"
-        + "import javax.inject.Inject;\n"
+        + "import jakarta.inject.Inject;\n"
         + "class Field {\n"
         + "  static class A { final String name; @Inject A(String name) { this.name = name; }}\n"
         + "  static class B { @Inject String name; }\n"
@@ -257,15 +256,16 @@ public final class ModuleAdapterGenerationTest {
         .generatesSources(expectedModuleAdapter, expectedInjectAdapterA, expectedInjectAdapterB);
   }
 
-  @Test public void providesHasParameterNamedModule() {
+  @Test
+  public void providesHasParameterNamedModule() {
     JavaFileObject a = JavaFileObjects.forSourceString("A", ""
-        + "import javax.inject.Inject;\n"
+        + "import jakarta.inject.Inject;\n"
         + "class A {\n"
         + "  @Inject A(){ }\n"
         + "}\n"
     );
     JavaFileObject b = JavaFileObjects.forSourceString("B", ""
-        + "import javax.inject.Inject;\n"
+        + "import jakarta.inject.Inject;\n"
         + "class B {\n"
         + "  @Inject B(){ }\n"
         + "}\n"
@@ -274,7 +274,7 @@ public final class ModuleAdapterGenerationTest {
     JavaFileObject module = JavaFileObjects.forSourceString("BModule", ""
         + "import dagger.Module;\n"
         + "import dagger.Provides;\n"
-        + "import javax.inject.Inject;\n"
+        + "import jakarta.inject.Inject;\n"
         + "@Module(injects = B.class)\n"
         + "class BModule {\n"
         + "  @Provides B b(A module) {\n"
@@ -289,11 +289,12 @@ public final class ModuleAdapterGenerationTest {
         .compilesWithoutError();
   }
 
-  @Test public void duplicateInjectsFails() {
+  @Test
+  public void duplicateInjectsFails() {
     JavaFileObject module = JavaFileObjects.forSourceString("Test", ""
         + "import dagger.Module;\n"
         + "import dagger.Provides;\n"
-        + "import javax.inject.Inject;\n"
+        + "import jakarta.inject.Inject;\n"
         + "class A {}\n"
         + "@Module(injects = { A.class, A.class })\n"
         + "class BModule { }\n"
@@ -307,11 +308,12 @@ public final class ModuleAdapterGenerationTest {
         .in(module).onLine(6);
   }
 
-  @Test public void duplicateIncludesFails() {
+  @Test
+  public void duplicateIncludesFails() {
     JavaFileObject module = JavaFileObjects.forSourceString("Test", ""
         + "import dagger.Module;\n"
         + "import dagger.Provides;\n"
-        + "import javax.inject.Inject;\n"
+        + "import jakarta.inject.Inject;\n"
         + "@Module\n"
         + "class AModule {}\n"
         + "@Module(includes = { AModule.class, AModule.class })\n"

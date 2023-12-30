@@ -18,28 +18,27 @@ package dagger.internal.codegen;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.List;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.Elements;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import jakarta.lang.model.element.TypeElement;
+import jakarta.lang.model.util.Elements;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(JUnit4.class)
 public class GraphAnalysisLoaderTest {
-  @Test public void resolveType() {
+  @Test
+  public void resolveType() {
     final List<String> resolveAttempts = new ArrayList<String>();
     Elements elements = mock(Elements.class);
     when(elements.getTypeElement(any(CharSequence.class))).then(new Answer<TypeElement>() {
-      @Override public TypeElement answer(InvocationOnMock invocationOnMock) throws Throwable {
+      @Override
+      public TypeElement answer(InvocationOnMock invocationOnMock) throws Throwable {
         resolveAttempts.add(invocationOnMock.getArguments()[0].toString());
         return null;
       }
