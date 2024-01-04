@@ -19,16 +19,14 @@ package dagger.tests.integration.validation;
 import com.google.testing.compile.JavaFileObjects;
 import java.util.Arrays;
 import jakarta.tools.JavaFileObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
+
 
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 import static com.google.testing.compile.JavaSourcesSubjectFactory.javaSources;
 import static dagger.tests.integration.ProcessorTestUtils.daggerProcessors;
 
-@RunWith(JUnit4.class)
 public final class LibraryModuleTest {
   @Test
   public void unusedProviderMethodsPassOnLibrary() {

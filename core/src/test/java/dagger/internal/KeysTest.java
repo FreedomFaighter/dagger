@@ -55,7 +55,7 @@ public final class KeysTest {
   @Named("foo") String annotatedType;
   @Test
   public void annotatedType() throws NoSuchFieldException {
-    assertEquals(fieldKey("annotatedType"), "@jakarta.inject.Named(value=foo)/java.lang.String");
+    assertEquals(fieldKey("annotatedType"), "@jakarta.inject.Named(value=\"foo\")/java.lang.String");
   }
 
   String className;
@@ -85,7 +85,7 @@ public final class KeysTest {
   @Named("foo") String annotated;
   @Test
   public void testAnnotated() throws NoSuchFieldException {
-    assertEquals(fieldKey("annotated"), "@jakarta.inject.Named(value=foo)/java.lang.String");
+    assertEquals(fieldKey("annotated"), "@jakarta.inject.Named(value=\"foo\")/java.lang.String");
     assertTrue(Keys.isAnnotated(fieldKey("annotated")));
   }
 
@@ -149,7 +149,7 @@ public final class KeysTest {
   @Test
   public void testGetElementKey_WithQualifier() throws NoSuchMethodException {
     Method method = KeysTest.class.getDeclaredMethod("qualifiedElementProvides", new Class<?>[]{});
-    assertEquals(Keys.getSetKey(method.getGenericReturnType(), method.getAnnotations(), method), "@jakarta.inject.Named(value=foo)/java.util.Set<java.lang.String>");
+    assertEquals(Keys.getSetKey(method.getGenericReturnType(), method.getAnnotations(), method), "@jakarta.inject.Named(value=\"foo\")/java.util.Set<java.lang.String>");
   }
 
   private String fieldKey(String fieldName) throws NoSuchFieldException {

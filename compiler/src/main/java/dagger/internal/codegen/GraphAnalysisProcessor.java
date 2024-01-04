@@ -69,9 +69,9 @@ import static java.util.Arrays.asList;
  */
 @SupportedAnnotationTypes("dagger.Module")
 public final class GraphAnalysisProcessor extends AbstractProcessor {
-  private static final Set<String> ERROR_NAMES_TO_PROPAGATE = new LinkedHashSet<String>(asList(
+  /*private static final Set<String> ERROR_NAMES_TO_PROPAGATE = new LinkedHashSet<String>(asList(
       "com.sun.tools.javac.code.Symbol$CompletionFailure"));
-
+  */
   private final Set<String> delayedModuleNames = new LinkedHashSet<String>();
 
   @Override
@@ -128,9 +128,9 @@ public final class GraphAnalysisProcessor extends AbstractProcessor {
           error("Graph validation failed: " + e.getMessage(), elements().getTypeElement(e.type));
           continue;
         } catch (RuntimeException e) {
-          if (ERROR_NAMES_TO_PROPAGATE.contains(e.getClass().getName())) {
+          /*if (ERROR_NAMES_TO_PROPAGATE.contains(e.getClass().getName())) {
             throw e;
-          }
+          }*/
           error("Unknown error " + e.getClass().getName() + " thrown by javac in graph validation: "
               + e.getMessage(), moduleType);
           continue;

@@ -32,7 +32,7 @@ import static java.util.Arrays.asList;
  */
 // TODO(cgruber): Audit this class when http://github.com/google/compile-testing
 //                has error/warning counts and other warning predicates available.
-@RunWith(JUnit4.class)
+
 public class ScopeAnnotationUseTest {
   private static final String ABSTRACTION_SCOPING_TEXT =
       "Scoping annotations are only allowed on concrete types and @Provides methods:";
