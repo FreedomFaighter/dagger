@@ -12,8 +12,8 @@ jobs:
     strategy:
       matrix:
         distribution: [ 'temurin' ]
-        java: [ '11' ]
-        os: [ 'ubuntu-latest']
+        java: [ '17' ]
+        os: [ 'ubuntu-latest', 'windows-latest' ]
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 8
@@ -32,8 +32,8 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build with Maven
-      run: mvn -B package  -Djava.version=${{ matrix.java }}
+      run: mvn -B package  -DjavaVersion=${{ matrix.java }}
     - name: Test with Maven
-      run: mvn -B test -Djava.version=${{ matrix.java }}
+      run: mvn -B test -DjavaVersion=${{ matrix.java }}
     #- name: Clean and Deploy with Maven
     #  run: mvn clean source:jar javadoc:jar deploy --settings=".buildscript/settings.xml" -Dmaven.test.skip=true -Dinvoker.skip=true
