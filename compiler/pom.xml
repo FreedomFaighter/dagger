@@ -69,7 +69,7 @@
       <artifactId>tools</artifactId>
       <scope>system</scope>
       <version>8</version>
-      <systemPath>${java.home}/../openjdk-8/lib/tools.jar</systemPath>
+      <systemPath>${java.home}/../temurin-8-jdk-amd64/lib/tools.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
