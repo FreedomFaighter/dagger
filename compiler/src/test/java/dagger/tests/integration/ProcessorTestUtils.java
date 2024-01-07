@@ -21,7 +21,7 @@ import dagger.internal.codegen.InjectAdapterProcessor;
 import dagger.internal.codegen.ModuleAdapterProcessor;
 import dagger.internal.codegen.ValidationProcessor;
 import java.util.Arrays;
-import jakarta.annotation.processing.Processor;
+import javax.annotation.processing.Processor;
 
 /**
  * Internal test utilities.

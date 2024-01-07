@@ -48,7 +48,7 @@
     <dependency>
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
-      <version>1.2.0</version>
+      <version>0.46</version>
       <scope>test</scope>
     </dependency>
       <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
@@ -63,6 +63,14 @@
       <artifactId>mockito-core</artifactId>
       <scope>test</scope>
     </dependency>
+        <!-- https://mvnrepository.com/artifact/com.sun/tools -->
+    <dependency>
+      <groupId>com.sun</groupId>
+      <artifactId>tools</artifactId>
+      <scope>system</scope>
+      <version>8</version>
+      <systemPath>${java.home}/../openjdk-8/lib/tools.jar</systemPath>
+    </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>dagger</artifactId>
@@ -73,11 +81,6 @@
     <dependency>
       <groupId>com.google.testing.compile</groupId>
       <artifactId>compile-testing</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.truth</groupId>
-      <artifactId>truth</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

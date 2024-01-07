@@ -22,7 +22,7 @@ import java.util.Set;
 import jakarta.inject.Named;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public final class GraphVisualizerTest {
   private final GraphVisualizer graphVisualizer = new GraphVisualizer();

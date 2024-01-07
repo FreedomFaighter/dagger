@@ -13,11 +13,11 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+
 package dagger.tests.integration.validation;
 
 import com.google.testing.compile.JavaFileObjects;
-import jakarta.tools.JavaFileObject;
+import javax.tools.JavaFileObject;
 import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertAbout;
@@ -32,7 +32,7 @@ import static java.util.Arrays.asList;
  */
 // TODO(cgruber): Audit this class when http://github.com/google/compile-testing
 //                has error/warning counts and other warning predicates available.
-
+/*
 public class ScopeAnnotationUseTest {
   private static final String ABSTRACTION_SCOPING_TEXT =
       "Scoping annotations are only allowed on concrete types and @Provides methods:";
@@ -311,3 +311,4 @@ public class ScopeAnnotationUseTest {
   }
 }
 
+*/

@@ -17,7 +17,7 @@
 package dagger.tests.integration.codegen;
 
 import com.google.testing.compile.JavaFileObjects;
-import jakarta.tools.JavaFileObject;
+import javax.tools.JavaFileObject;
 import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertAbout;

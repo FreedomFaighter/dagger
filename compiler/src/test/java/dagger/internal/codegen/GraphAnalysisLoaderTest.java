@@ -18,8 +18,8 @@ package dagger.internal.codegen;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.lang.model.element.TypeElement;
-import jakarta.lang.model.util.Elements;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.Elements;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -27,7 +27,7 @@ import org.mockito.stubbing.Answer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

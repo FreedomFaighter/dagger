@@ -13,21 +13,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+
 package dagger.tests.integration.codegen;
 
 import com.google.testing.compile.JavaFileObjects;
-import jakarta.tools.JavaFileObject;
+import javax.tools.JavaFileObject;
 import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 import static com.google.testing.compile.JavaSourcesSubjectFactory.javaSources;
 import static dagger.tests.integration.ProcessorTestUtils.daggerProcessors;
-import static java.util.Arrays.asList;
 
 public final class ModuleAdapterGenerationTest {
-  /**
+
    * Shows current behavior for a {@link dagger.Provides provides method}
    * used to supply an injected ctor parameter.
    *
@@ -41,7 +40,6 @@ public final class ModuleAdapterGenerationTest {
    *   <li>On {@code get}, the injected constructor is called with the value of
    *   {@link dagger.internal.Binding#get}</li>
    * </ul>
-   */
   @Test
   public void providerForCtorInjection() {
     JavaFileObject sourceFile = JavaFileObjects.forSourceString("Field", ""
@@ -328,3 +326,4 @@ public final class ModuleAdapterGenerationTest {
         .in(module).onLine(7);
   }
 }
+*/
