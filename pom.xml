@@ -34,7 +34,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Compilation -->
-    <java.version>${javaVersion}</java.version>
     <jakarta.inject.version>2.0.1</jakarta.inject.version>
     <javapoet.version>1.13.0</javapoet.version>
     <guava.version>33.0.0-jre</guava.version>
@@ -44,6 +43,8 @@
     <truth.version>1.2.0</truth.version>
     <compile-testing.version>0.8</compile-testing.version>
     <mockito.version>5.7.0</mockito.version>
+    <maven.compiler.source>${javaVersion}</maven.compiler.source>
+    <maven.compiler.target>${javaVersion}</maven.compiler.target>
   </properties>
 
   <scm>
