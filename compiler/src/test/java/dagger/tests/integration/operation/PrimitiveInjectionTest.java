@@ -23,7 +23,7 @@ import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 
 public final class PrimitiveInjectionTest {
@@ -53,12 +53,12 @@ public final class PrimitiveInjectionTest {
     ArrayInjectable result = ObjectGraph.create(PrimitiveArrayModule.class)
         .get(ArrayInjectable.class);
     assertNotNull(result);
-    assertEquals(result.byteArray, new byte[] { Byte.MAX_VALUE });
-    assertEquals(result.integerArray, new int[] { Integer.MAX_VALUE });
-    assertEquals(result.booleanArray, new boolean[] { true });
-    assertEquals(result.charArray, new char[] { Character.MAX_VALUE });
-    assertEquals(result.longArray, new long[] { Long.MAX_VALUE });
-    assertEquals(result.floatArray, new float[] { Float.MAX_VALUE });
-    assertEquals(result.doubleArray, new double[] { Double.MAX_VALUE });
+    assertArrayEquals(result.byteArray, new byte[] { Byte.MAX_VALUE });
+    assertArrayEquals(result.integerArray, new int[] { Integer.MAX_VALUE });
+    assertArrayEquals(result.booleanArray, new boolean[] { true });
+    assertArrayEquals(result.charArray, new char[] { Character.MAX_VALUE });
+    assertArrayEquals(result.longArray, new long[] { Long.MAX_VALUE });
+    assertArrayEquals(result.floatArray, new float[] { Float.MAX_VALUE });
+    assertArrayEquals(result.doubleArray, new double[] { Double.MAX_VALUE });
   }
 }

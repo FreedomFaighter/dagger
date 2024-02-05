@@ -25,7 +25,7 @@
   </parent>
 
   <artifactId>core</artifactId>
-  <name>Dagger</name>
+  <name>Dagger Core</name>
 
   <dependencies>
     <!-- https://mvnrepository.com/artifact/jakarta.inject/jakarta.inject-api -->
