@@ -20,12 +20,12 @@
 
   <parent>
     <groupId>com.squareup.dagger</groupId>
-    <artifactId>dagger-parent</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <artifactId>dagger</artifactId>
+    <version>1.3.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>dagger-compiler</artifactId>
+  <artifactId>compiler</artifactId>
   <name>Dagger Compiler</name>
   <description>
     Tools to generate Dagger injection and module adapters from annotated code and validate them.
@@ -33,16 +33,18 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>dagger</artifactId>
+      <artifactId>core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.squareup</groupId>
       <artifactId>javapoet</artifactId>
+      <version>${javapoet.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.google.truth/truth -->
     <dependency>
@@ -56,12 +58,13 @@
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <scope>test</scope>
-      <version>5.10.1</version>
+      <version>${junit.version}</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
       <scope>test</scope>
+      <version>${mockito.version}</version>
     </dependency>
         <!-- https://mvnrepository.com/artifact/com.sun/tools -->
     <dependency>
@@ -69,11 +72,11 @@
       <artifactId>tools</artifactId>
       <scope>system</scope>
       <version>8</version>
-      <systemPath>${java.home}/../temurin-8-jdk-amd64/lib/tools.jar</systemPath>
+      <systemPath>${java.home}/../openjdk-8/lib/tools.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>dagger</artifactId>
+      <artifactId>core</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
       <classifier>tests</classifier>
@@ -82,6 +85,7 @@
       <groupId>com.google.testing.compile</groupId>
       <artifactId>compile-testing</artifactId>
       <scope>test</scope>
+      <version>${compile-testing.version}</version>
     </dependency>
   </dependencies>
 
