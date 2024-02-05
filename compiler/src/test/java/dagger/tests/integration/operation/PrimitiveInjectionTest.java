@@ -52,7 +52,7 @@ public final class PrimitiveInjectionTest {
   public void primitiveArrayTypesAllInjected() {
     ArrayInjectable result = ObjectGraph.create(PrimitiveArrayModule.class)
         .get(ArrayInjectable.class);
-    assertNotNull(result).isNotNull();
+    assertNotNull(result);
     assertEquals(result.byteArray, new byte[] { Byte.MAX_VALUE });
     assertEquals(result.integerArray, new int[] { Integer.MAX_VALUE });
     assertEquals(result.booleanArray, new boolean[] { true });
