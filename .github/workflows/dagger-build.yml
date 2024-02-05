@@ -11,29 +11,23 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        distribution: [ 'temurin' ]
-        java: [ '17' ]
+        java: [ '11', '17' ]
         os: [ 'ubuntu-latest', 'windows-latest' ]
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 8
-      uses: actions/setup-java@v3
+      uses: AdoptOpenJDK/install-jdk@v1
       with:
-        java-version: '8'
-        distribution: '${{ matrix.distribution }}'
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
+        version: '8'
+        architecture: x64
+        targets: 'JDK_8'
     - name: Set up JDK ${{ matrix.java }}
       uses: actions/setup-java@v3
       with:
         java-version: '${{ matrix.java }}'
-        distribution: '${{ matrix.distribution }}'
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
-
+        distribution: 'temurin'
+        cache: maven
     - name: Build with Maven
-      run: mvn -B package  -DjavaVersion=${{ matrix.java }}
+      run: mvn -B package  -DjavaVersion=${{ matrix.java }} -Djdk8=${JDK_8}
     - name: Test with Maven
-      run: mvn -B test -DjavaVersion=${{ matrix.java }}
-    #- name: Clean and Deploy with Maven
-    #  run: mvn clean source:jar javadoc:jar deploy --settings=".buildscript/settings.xml" -Dmaven.test.skip=true -Dinvoker.skip=true
+      run: mvn -B test -DjavaVersion=${{ matrix.java }} -Djdk8=${JDK_8}
